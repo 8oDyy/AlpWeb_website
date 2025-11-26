@@ -3,12 +3,39 @@
 
 /* ========================================
    ALPWEB - Main Stylesheet
+   Design: Apple-like, Cream/Noir, Premium
    ======================================== */
 
-/* Custom CSS Variables */
+/* ----------------------------------------
+   Design System - CSS Variables
+   ---------------------------------------- */
 :root {
+  /* Typography */
   --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
   --font-display: 'Manrope', ui-sans-serif, system-ui, sans-serif;
+
+  /* Color Palette - Cream/Noir */
+  --color-cream: #F5F0E8;
+  --color-cream-dark: #EBE4D8;
+  --color-cream-light: #FAF8F5;
+
+  --color-black: #1A1A1A;
+  --color-black-soft: #2D2D2D;
+  --color-black-muted: #4A4A4A;
+
+  --color-brown: #8B7355;
+  --color-brown-light: #A89078;
+
+  /* Mountains gradient layers */
+  --color-mountain-1: #2A2A2A;
+  --color-mountain-2: #3D3D3D;
+  --color-mountain-3: #5A5A5A;
+  --color-mountain-4: #787878;
+
+  /* Spacing */
+  --section-padding-y: 6rem;
+  --section-padding-y-lg: 8rem;
+  --container-padding-x: 1.5rem;
 }
 
 /* Base styles */
@@ -75,4 +102,91 @@ h1, h2, h3, h4, h5, h6 {
 
 [data-animate="scale"] {
   transform: scale(0.9);
+}
+
+/* ----------------------------------------
+   AlpWeb Design System - Utilities
+   ---------------------------------------- */
+
+/* Background colors */
+.bg-cream {
+  background-color: var(--color-cream);
+}
+
+.bg-cream-dark {
+  background-color: var(--color-cream-dark);
+}
+
+.bg-cream-light {
+  background-color: var(--color-cream-light);
+}
+
+.bg-alp-black {
+  background-color: var(--color-black);
+}
+
+/* Text colors */
+.text-alp-black {
+  color: var(--color-black);
+}
+
+.text-alp-black-soft {
+  color: var(--color-black-soft);
+}
+
+.text-alp-black-muted {
+  color: var(--color-black-muted);
+}
+
+.text-brown {
+  color: var(--color-brown);
+}
+
+.text-cream {
+  color: var(--color-cream);
+}
+
+/* Section spacing */
+.section-padding {
+  padding-top: var(--section-padding-y);
+  padding-bottom: var(--section-padding-y);
+}
+
+@media (min-width: 1024px) {
+  .section-padding {
+    padding-top: var(--section-padding-y-lg);
+    padding-bottom: var(--section-padding-y-lg);
+  }
+}
+
+/* Container */
+.container-alp {
+  width: 100%;
+  max-width: 80rem;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: var(--container-padding-x);
+  padding-right: var(--container-padding-x);
+}
+
+/* Typography utilities */
+.font-display {
+  font-family: var(--font-display);
+}
+
+.font-sans {
+  font-family: var(--font-sans);
+}
+
+/* Premium card style */
+.card-premium {
+  background-color: var(--color-cream-light);
+  border: 1px solid var(--color-cream-dark);
+  border-radius: 1rem;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card-premium:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 40px -12px rgba(26, 26, 26, 0.1);
 }

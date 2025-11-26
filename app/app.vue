@@ -1,19 +1,8 @@
 <script setup lang="ts">
-import { useGsap } from '~/composables/useGsap'
-
-const { initScrollAnimations, killAll } = useGsap()
-
-// Initialize scroll animations after page load
-onMounted(() => {
-  nextTick(() => {
-    initScrollAnimations()
-  })
-})
-
-// Cleanup on unmount
-onUnmounted(() => {
-  killAll()
-})
+/**
+ * App Root
+ * Animations seront initialisées dans feat/scroll-animations
+ */
 </script>
 
 <template>
