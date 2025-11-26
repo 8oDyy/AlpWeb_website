@@ -99,15 +99,15 @@ export function useHeroAnimations() {
       // Animate content out while pinned
       if (contentRef.value) {
         gsap.to(contentRef.value, {
-          scale: 0.8,
+          scale: 0.9,
           opacity: 0,
-          y: -100,
-          filter: 'blur(10px)',
+          y: -50,
+          filter: 'blur(4px)',
           ease: 'power2.in',
           scrollTrigger: {
             trigger: heroRef.value,
             start: 'top top',
-            end: '50% top', // Fade out halfway through the overlap
+            end: '40% top', // Fade out slightly faster to clear the way
             scrub: true,
           },
         })

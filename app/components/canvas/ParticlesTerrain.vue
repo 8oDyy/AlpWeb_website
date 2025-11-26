@@ -72,11 +72,11 @@ onLoop(({ elapsed }: { elapsed: number }) => {
       />
     </TresBufferGeometry>
     <TresPointsMaterial
-      :size="0.15"
+      :size="0.08"
       :color="props.color || '#1A1A1A'"
       :size-attenuation="true"
       transparent
-      :opacity="0.8"
+      :opacity="0.6"
     />
   </TresPoints>
 </template>
