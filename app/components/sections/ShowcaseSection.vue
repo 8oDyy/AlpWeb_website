@@ -79,10 +79,10 @@ onUnmounted(() => {
   <section
     id="showcase"
     ref="wrapperRef"
-    class="bg-cream-dark overflow-hidden"
+    class="bg-cream-dark py-24 overflow-visible relative"
   >
     <!-- Section Header (fixed during scroll) -->
-    <div class="container-alp pt-24 pb-12">
+    <div class="container-alp mb-12">
       <div class="text-center">
         <h2
           data-slide-content

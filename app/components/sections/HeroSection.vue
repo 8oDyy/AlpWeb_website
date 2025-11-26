@@ -45,7 +45,7 @@ onUnmounted(() => {
   <section
     id="hero"
     ref="heroRef"
-    class="relative min-h-screen flex items-center justify-center overflow-hidden"
+    class="relative min-h-screen flex items-center justify-center"
   >
     <!-- Mountain Layers Background -->
     <div ref="mountainLayersRef">

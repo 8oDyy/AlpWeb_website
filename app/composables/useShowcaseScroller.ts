@@ -83,6 +83,25 @@ export function useShowcaseScroller() {
             },
           })
 
+          // Internal Parallax for Content
+          const innerContent = slide.querySelectorAll('.card-premium > div')
+          if (innerContent.length > 0) {
+             gsap.fromTo(innerContent, 
+               { x: 40 },
+               {
+                 x: -40,
+                 ease: 'none',
+                 scrollTrigger: {
+                   trigger: slide,
+                   containerAnimation: horizontalTween!,
+                   start: 'left right',
+                   end: 'right left',
+                   scrub: true,
+                 }
+               }
+             )
+          }
+          
           // Contenu de la slide (titre, description, tags)
           const content = slide.querySelectorAll('[data-slide-content]')
           if (content.length > 0) {

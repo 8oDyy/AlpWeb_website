@@ -85,33 +85,43 @@ export function useHeroAnimations() {
         })
       }
 
-      // 4. Pin & Scale Down Exit Effect
+      // 4. Pin & Scale Down Exit Effect (Scrollytelling enhanced)
       const exitTl = gsap.timeline({
         scrollTrigger: {
           trigger: heroRef.value,
           start: 'top top',
-          end: '+=100%',
+          end: '+=120%', // Longer pin for better storytelling
           pin: true,
-          scrub: true,
+          scrub: 0.5, // Add smoothness
           anticipatePin: 1,
         }
       })
 
       if (contentRef.value) {
+        // Content scales down and moves up slightly, simulating depth
         exitTl.to(contentRef.value, {
-          scale: 0.9,
+          scale: 0.8,
           opacity: 0,
-          y: -50,
-          ease: 'power1.inOut'
+          y: -100,
+          ease: 'power2.inOut',
+          duration: 0.8 // Leaves a bit of time at the end
         }, 0)
       }
 
       if (mountainLayers.value.length > 0) {
-        exitTl.to(mountainLayers.value, {
-          scale: 1.1,
-          opacity: 0,
-          ease: 'power1.inOut'
-        }, 0)
+        // Mountains separate: closest layers move down, furthest move up
+        mountainLayers.value.forEach((layer, i) => {
+          const direction = i % 2 === 0 ? 1 : -1
+          const distance = 50 + (i * 20)
+          
+          exitTl.to(layer, {
+            y: `+=${distance * direction}`,
+            scale: 1.1,
+            opacity: 0,
+            ease: 'power1.inOut',
+            duration: 1
+          }, 0)
+        })
       }
 
       // 5. Scroll Indicator Fade
