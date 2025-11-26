@@ -85,17 +85,19 @@ h1, h2, h3, h4, h5, h6 {
    AlpWeb Design System - Utilities
    ---------------------------------------- */
 
-/* Background colors */
+/* Background colors - Modified for 3D Experience */
 .bg-cream {
-  background-color: var(--color-cream);
+  background-color: transparent; /* Was var(--color-cream) */
 }
 
 .bg-cream-dark {
-  background-color: var(--color-cream-dark);
+  background-color: rgba(235, 228, 216, 0.3); /* Semi-transparent */
+  backdrop-filter: blur(10px);
 }
 
 .bg-cream-light {
-  background-color: var(--color-cream-light);
+  background-color: rgba(250, 248, 245, 0.5);
+  backdrop-filter: blur(5px);
 }
 
 .bg-alp-black {

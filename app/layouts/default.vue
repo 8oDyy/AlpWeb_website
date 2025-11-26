@@ -8,7 +8,7 @@
 </script>
 
 <template>
-  <div class="min-h-screen flex flex-col bg-cream">
+  <div class="min-h-screen flex flex-col">
     <!-- Header -->
     <LayoutTheHeader />
 

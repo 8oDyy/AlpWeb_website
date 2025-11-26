@@ -1,4 +1,8 @@
 <script setup lang="ts">
+import { defineAsyncComponent } from 'vue'
+
+const TheExperience = defineAsyncComponent(() => import('~/components/canvas/TheExperience.vue'))
+
 /**
  * App Root
  * Animations seront initialisées dans feat/scroll-animations
@@ -7,6 +11,10 @@
 
 <template>
   <div>
+    <ClientOnly>
+      <TheExperience />
+    </ClientOnly>
+    
     <NuxtRouteAnnouncer />
     <NuxtLayout>
       <NuxtPage />
