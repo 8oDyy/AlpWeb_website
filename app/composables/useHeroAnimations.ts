@@ -85,42 +85,31 @@ export function useHeroAnimations() {
         })
       }
 
-      // 4. Pin & Scale Down Exit Effect (Scrollytelling enhanced)
-      const exitTl = gsap.timeline({
-        scrollTrigger: {
-          trigger: heroRef.value,
-          start: 'top top',
-          end: '+=120%', // Longer pin for better storytelling
-          pin: true,
-          scrub: 0.5, // Add smoothness
-          anticipatePin: 1,
-        }
+      // 4. Pin & Scale Down Exit Effect (Curtain Effect)
+      // We pin the hero but set pinSpacing: false so the next section scrolls OVER it.
+      ScrollTrigger.create({
+        trigger: heroRef.value,
+        start: 'top top',
+        end: 'bottom top',
+        pin: true,
+        pinSpacing: false,
+        scrub: true,
       })
 
+      // Animate content out while pinned
       if (contentRef.value) {
-        // Content scales down and moves up slightly, simulating depth
-        exitTl.to(contentRef.value, {
+        gsap.to(contentRef.value, {
           scale: 0.8,
           opacity: 0,
           y: -100,
-          ease: 'power2.inOut',
-          duration: 0.8 // Leaves a bit of time at the end
-        }, 0)
-      }
-
-      if (mountainLayers.value.length > 0) {
-        // Mountains separate: closest layers move down, furthest move up
-        mountainLayers.value.forEach((layer, i) => {
-          const direction = i % 2 === 0 ? 1 : -1
-          const distance = 50 + (i * 20)
-          
-          exitTl.to(layer, {
-            y: `+=${distance * direction}`,
-            scale: 1.1,
-            opacity: 0,
-            ease: 'power1.inOut',
-            duration: 1
-          }, 0)
+          filter: 'blur(10px)',
+          ease: 'power2.in',
+          scrollTrigger: {
+            trigger: heroRef.value,
+            start: 'top top',
+            end: '50% top', // Fade out halfway through the overlap
+            scrub: true,
+          },
         })
       }
 

@@ -32,14 +32,16 @@ export function useShowcaseScroller() {
       const getScrollWidth = () => container.scrollWidth - window.innerWidth
 
       // Animation de scroll horizontal
+      // We multiply the scroll width to make the scroll slower/longer
       horizontalTween = gsap.to(container, {
         x: () => -getScrollWidth(),
         ease: 'none',
         scrollTrigger: {
           trigger: wrapper,
           pin: true,
-          scrub: 1,
-          end: () => `+=${getScrollWidth()}`,
+          scrub: 0.5, // Adjust scrub amount to slow down the horizontal scroll
+          // Multiply by 2 to make it feel longer and more substantial
+          end: () => `+=${getScrollWidth() * 2}`, 
           invalidateOnRefresh: true,
         },
       })

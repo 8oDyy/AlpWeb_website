@@ -1,34 +1,31 @@
 <script setup lang="ts">
-import { gsap } from 'gsap'
+import { useHeroAnimations } from '~/composables/useHeroAnimations'
 
 // Refs
 const heroRef = ref<HTMLElement | null>(null)
 const logoRef = ref<HTMLElement | null>(null)
 const contentRef = ref<HTMLElement | null>(null)
+// Mountains are handled by 3D scene now, but composable expects the ref
+const mountainLayers = ref<HTMLElement[]>([])
+
+// Animations
+const { init: initAnimations, destroy: destroyAnimations } = useHeroAnimations()
 
 onMounted(() => {
   if (import.meta.server) return
   
-  // Intro Animation Simple
-  const tl = gsap.timeline({ defaults: { ease: 'power3.out' } })
-  
-  if (logoRef.value) {
-    const logoText = logoRef.value.querySelector('.logo-text')
-    if (logoText) {
-      gsap.set(logoText, { strokeDasharray: 1000, strokeDashoffset: 1000, fill: 'transparent' })
-      tl.to(logoText, { strokeDashoffset: 0, duration: 1.5 })
-        .to(logoText, { fill: '#1A1A1A', duration: 1 }, '-=0.5')
-    }
-  }
-  
-  if (contentRef.value) {
-    tl.from(contentRef.value.children, {
-      y: 50,
-      opacity: 0,
-      stagger: 0.1,
-      duration: 1
-    }, '-=1')
-  }
+  nextTick(() => {
+    initAnimations({
+      heroRef,
+      logoRef,
+      contentRef,
+      mountainLayers,
+    })
+  })
+})
+
+onUnmounted(() => {
+  destroyAnimations()
 })
 </script>
 

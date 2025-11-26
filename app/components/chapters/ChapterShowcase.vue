@@ -79,7 +79,7 @@ onUnmounted(() => {
   <section
     id="showcase"
     ref="wrapperRef"
-    class="bg-cream-dark py-24 overflow-visible relative"
+    class="bg-cream-dark min-h-screen flex flex-col justify-center overflow-visible relative"
   >
     <!-- Section Header (fixed during scroll) -->
     <div class="container-alp mb-12">
