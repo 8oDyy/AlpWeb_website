@@ -29,7 +29,6 @@
     "@nuxt/eslint": "^1.10.0",
     "@nuxt/fonts": "^0.12.1",
     "@nuxt/icon": "^2.1.0",
-    "@nuxt/ui": "^4.2.1",
     "@tailwindcss/vite": "^4.1.17",
     "@tresjs/nuxt": "^5.1.1",
     "@types/node": "^24.10.1",

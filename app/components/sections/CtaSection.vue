@@ -75,29 +75,20 @@ onUnmounted(() => {
           data-cta-animate
           class="flex flex-col sm:flex-row gap-4 justify-center"
         >
-          <UButton
-            size="xl"
-            color="neutral"
-            variant="solid"
-            class="bg-cream text-alp-black hover:bg-cream-dark px-8"
-          >
+          <UiAlpButton size="xl" variant="secondary">
             <Icon
               name="lucide:mail"
               class="w-5 h-5 mr-2"
             />
             Nous contacter
-          </UButton>
-          <UButton
-            size="xl"
-            variant="outline"
-            class="border-cream/30 text-cream hover:bg-cream/10 px-8"
-          >
+          </UiAlpButton>
+          <UiAlpButton size="xl" variant="ghost" class="border border-cream/30 text-cream hover:bg-cream/10">
             <Icon
               name="lucide:calendar"
               class="w-5 h-5 mr-2"
             />
             Prendre rendez-vous
-          </UButton>
+          </UiAlpButton>
         </div>
 
         <!-- Contact Info -->

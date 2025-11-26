@@ -38,13 +38,9 @@ const isMobileMenuOpen = ref(false)
 
           <!-- CTA Button -->
           <div class="hidden md:block">
-            <UButton
-              color="neutral"
-              variant="solid"
-              class="bg-alp-black text-cream hover:bg-linear-to-br hover:from-alp-black hover:to-alp-black-soft transition-all duration-300"
-            >
+            <UiAlpButton size="md" variant="primary">
               Parlons de votre projet
-            </UButton>
+            </UiAlpButton>
           </div>
 
           <!-- Mobile Menu Button -->
@@ -75,13 +71,9 @@ const isMobileMenuOpen = ref(false)
             >
               {{ link.label }}
             </NuxtLink>
-            <UButton
-              color="neutral"
-              variant="solid"
-              class="bg-alp-black text-cream hover:bg-alp-black/90 w-full mt-2"
-            >
+            <UiAlpButton size="md" variant="primary" class="w-full mt-2">
               Parlons de votre projet
-            </UButton>
+            </UiAlpButton>
           </div>
         </div>
       </nav>

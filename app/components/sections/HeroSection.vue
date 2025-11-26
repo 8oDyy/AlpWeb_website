@@ -79,14 +79,9 @@ onMounted(() => {
 
       <!-- CTA -->
       <div class="flex flex-col sm:flex-row gap-4 justify-center">
-        <UButton
-          size="xl"
-          color="neutral"
-          variant="solid"
-          class="bg-alp-black text-cream hover:scale-105 transition-transform duration-300 shadow-2xl"
-        >
+        <UiAlpButton size="xl" variant="primary">
           Parlons de votre projet
-        </UButton>
+        </UiAlpButton>
       </div>
     </div>
   </section>
