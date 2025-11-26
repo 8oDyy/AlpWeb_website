@@ -29,11 +29,12 @@ export default defineNuxtConfig({
   // CSS
   css: ['~/assets/css/main.css'],
 
-  // Runtime config
+  // Runtime config - values are overridden by env variables at runtime
+  // NUXT_PUBLIC_SITE_NAME and NUXT_PUBLIC_SITE_URL
   runtimeConfig: {
     public: {
       siteName: 'AlpWeb',
-      siteUrl: process.env.NUXT_PUBLIC_SITE_URL || 'https://alpweb.fr',
+      siteUrl: 'https://alpweb.fr',
     },
   },
   compatibilityDate: '2025-07-15',
