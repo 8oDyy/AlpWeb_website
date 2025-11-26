@@ -47,17 +47,38 @@ export function useShowcaseScroller() {
       // Animation des slides individuelles
       if (slidesRef.value.length > 0) {
         slidesRef.value.forEach((slide) => {
-          // Slide reveal avec rotation 3D
-          gsap.from(slide, {
+          // Slide reveal avec rotation 3D (Entrée)
+          gsap.fromTo(slide, 
+            {
+              opacity: 0,
+              scale: 0.9,
+              rotateY: 8,
+              transformOrigin: 'center center',
+            },
+            {
+              opacity: 1,
+              scale: 1,
+              rotateY: 0,
+              scrollTrigger: {
+                trigger: slide,
+                containerAnimation: horizontalTween!,
+                start: 'left 100%', // Dès qu'il entre à droite
+                end: 'center center', // Jusqu'au centre
+                scrub: true,
+              },
+            }
+          )
+
+          // Slide exit (Sortie)
+          gsap.to(slide, {
             opacity: 0,
             scale: 0.9,
-            rotateY: 8,
-            transformOrigin: 'left center',
+            rotateY: -8,
             scrollTrigger: {
               trigger: slide,
               containerAnimation: horizontalTween!,
-              start: 'left 90%',
-              end: 'left 60%',
+              start: 'center center', // Depuis le centre
+              end: 'right 0%', // Jusqu'à la sortie à gauche
               scrub: true,
             },
           })

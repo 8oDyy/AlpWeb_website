@@ -71,12 +71,22 @@ onUnmounted(() => {
       <!-- Logo / Brand -->
       <div
         ref="logoRef"
-        data-animate
-        class="mb-6"
+        class="mb-6 relative"
       >
-        <h1 class="text-7xl md:text-8xl lg:text-[10rem] font-bold font-display text-alp-black leading-none tracking-tight">
-          AlpWeb
-        </h1>
+        <svg
+          viewBox="0 0 600 150"
+          class="w-full max-w-[600px] mx-auto h-auto overflow-visible"
+        >
+          <text
+            x="50%"
+            y="50%"
+            dominant-baseline="middle"
+            text-anchor="middle"
+            class="logo-text font-display font-bold text-8xl md:text-9xl tracking-tight fill-transparent stroke-alp-black stroke-2"
+          >
+            AlpWeb
+          </text>
+        </svg>
       </div>
 
       <!-- Baseline -->

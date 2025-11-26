@@ -79,30 +79,7 @@ h1, h2, h3, h4, h5, h6 {
   visibility: hidden;
 }
 
-/* Scroll animations base states */
-[data-animate] {
-  opacity: 0;
-}
-
-[data-animate="fade-up"] {
-  transform: translateY(50px);
-}
-
-[data-animate="fade-down"] {
-  transform: translateY(-50px);
-}
-
-[data-animate="fade-left"] {
-  transform: translateX(50px);
-}
-
-[data-animate="fade-right"] {
-  transform: translateX(-50px);
-}
-
-[data-animate="scale"] {
-  transform: scale(0.9);
-}
+/* Scroll animations - GSAP handles initial states */
 
 /* ----------------------------------------
    AlpWeb Design System - Utilities

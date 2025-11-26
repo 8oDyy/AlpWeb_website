@@ -30,7 +30,7 @@ const isMobileMenuOpen = ref(false)
               v-for="link in navLinks"
               :key="link.href"
               :to="link.href"
-              class="text-alp-black-soft hover:text-alp-black transition-colors font-medium"
+              class="text-alp-black-soft hover:text-alp-black transition-colors font-medium link-animated"
             >
               {{ link.label }}
             </NuxtLink>
@@ -41,7 +41,7 @@ const isMobileMenuOpen = ref(false)
             <UButton
               color="neutral"
               variant="solid"
-              class="bg-alp-black text-cream hover:bg-alp-black/90"
+              class="bg-alp-black text-cream hover:bg-linear-to-br hover:from-alp-black hover:to-alp-black-soft transition-all duration-300"
             >
               Parlons de votre projet
             </UButton>
@@ -70,7 +70,7 @@ const isMobileMenuOpen = ref(false)
               v-for="link in navLinks"
               :key="link.href"
               :to="link.href"
-              class="text-alp-black-soft hover:text-alp-black transition-colors font-medium py-2"
+              class="text-alp-black-soft hover:text-alp-black transition-colors font-medium py-2 link-animated w-fit"
               @click="isMobileMenuOpen = false"
             >
               {{ link.label }}

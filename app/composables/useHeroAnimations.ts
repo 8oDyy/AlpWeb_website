@@ -10,10 +10,9 @@ interface HeroAnimationOptions {
 
 /**
  * Composable pour les animations du Hero Section
- * - Logo stroke-drawing
- * - Texte stagger slide-up
- * - Parallax montagnes
- * - Pin + scale-down à la sortie
+ * - Texte stagger slide-up à l'entrée
+ * - Parallax montagnes au scroll
+ * - Fade out au scroll
  */
 export function useHeroAnimations() {
   let ctx: gsap.Context | null = null
@@ -27,21 +26,35 @@ export function useHeroAnimations() {
     ctx = gsap.context(() => {
       const { heroRef, logoRef, contentRef, mountainLayers } = options
 
-      // Timeline d'entrée
+      // --- Intro Animation Timeline ---
       const enterTl = gsap.timeline({
         defaults: { ease: 'power3.out' },
       })
 
-      // 1. Logo animation (fade + scale)
+      // 1. Logo Stroke Drawing
       if (logoRef.value) {
-        enterTl.from(logoRef.value, {
-          opacity: 0,
-          scale: 0.9,
-          duration: 1,
-        })
+        const logoText = logoRef.value.querySelector('.logo-text')
+        if (logoText) {
+          gsap.set(logoText, {
+            strokeDasharray: 1000,
+            strokeDashoffset: 1000,
+            fill: 'transparent'
+          })
+
+          enterTl.to(logoText, {
+            strokeDashoffset: 0,
+            duration: 1.5,
+            ease: 'power2.inOut'
+          })
+          .to(logoText, {
+            fill: '#1A1A1A',
+            duration: 1,
+            ease: 'power2.out'
+          }, '-=0.5')
+        }
       }
 
-      // 2. Content stagger (eyebrow, title, baseline, description, buttons)
+      // 2. Content Stagger
       if (contentRef.value) {
         const elements = contentRef.value.querySelectorAll('[data-animate]')
         enterTl.from(elements, {
@@ -49,13 +62,16 @@ export function useHeroAnimations() {
           y: 40,
           duration: 0.8,
           stagger: 0.1,
-        }, '-=0.5')
+        }, '-=1')
       }
 
-      // 3. Parallax montagnes au scroll
+      // --- Scroll Animations ---
+
+      // 3. Parallax Montagnes
       if (mountainLayers.value.length > 0) {
         mountainLayers.value.forEach((layer, i) => {
-          const speed = (mountainLayers.value.length - i) * 30 // Plus proche = plus rapide
+          const speed = (i + 1) * 30
+          
           gsap.to(layer, {
             y: speed,
             ease: 'none',
@@ -69,38 +85,44 @@ export function useHeroAnimations() {
         })
       }
 
-      // 4. Hero pin + exit animation
-      ScrollTrigger.create({
-        trigger: heroRef.value,
-        pin: true,
-        start: 'top top',
-        end: '+=30%',
-        pinSpacing: true,
-      })
-
-      // 5. Scale-down + fade à la sortie
-      gsap.to(heroRef.value, {
-        scale: 0.95,
-        opacity: 0.8,
-        ease: 'none',
+      // 4. Pin & Scale Down Exit Effect
+      const exitTl = gsap.timeline({
         scrollTrigger: {
           trigger: heroRef.value,
-          start: 'bottom bottom',
-          end: 'bottom top',
+          start: 'top top',
+          end: '+=100%',
+          pin: true,
           scrub: true,
-        },
+          anticipatePin: 1,
+        }
       })
 
-      // 6. Scroll indicator fade out
+      if (contentRef.value) {
+        exitTl.to(contentRef.value, {
+          scale: 0.9,
+          opacity: 0,
+          y: -50,
+          ease: 'power1.inOut'
+        }, 0)
+      }
+
+      if (mountainLayers.value.length > 0) {
+        exitTl.to(mountainLayers.value, {
+          scale: 1.1,
+          opacity: 0,
+          ease: 'power1.inOut'
+        }, 0)
+      }
+
+      // 5. Scroll Indicator Fade
       const scrollIndicator = heroRef.value?.querySelector('[data-scroll-indicator]')
       if (scrollIndicator) {
         gsap.to(scrollIndicator, {
           opacity: 0,
-          y: -20,
           scrollTrigger: {
             trigger: heroRef.value,
             start: 'top top',
-            end: '+=100',
+            end: '10% top',
             scrub: true,
           },
         })
