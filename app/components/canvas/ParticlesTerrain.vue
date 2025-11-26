@@ -48,10 +48,12 @@ onLoop(({ elapsed }: { elapsed: number }) => {
   for (let i = 0; i < count; i++) {
     const i3 = i * 3
     const x = array[i3]
-    if (x === undefined) continue
+    const y = originalY[i]
+    
+    if (x === undefined || y === undefined) continue
     
     // Wave effect
-    array[i3 + 1] = originalY[i] + Math.sin(elapsed + x * 0.5) * 0.5
+    array[i3 + 1] = y + Math.sin(elapsed + x * 0.5) * 0.5
   }
   
   positionAttribute.needsUpdate = true
