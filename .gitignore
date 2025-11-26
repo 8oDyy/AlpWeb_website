@@ -56,3 +56,7 @@ storybook-static
 *.temp
 .temp
 .tmp
+
+# AI/Cascade rules (local only)
+.cascade-rules.md
+docs/global_rules.md
