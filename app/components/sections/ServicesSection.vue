@@ -1,8 +1,11 @@
 <script setup lang="ts">
+import { useSectionReveal } from '~/composables/useSectionReveal'
+import { useMicroInteractions } from '~/composables/useMicroInteractions'
+
 /**
  * Services Section
- * - Cartes crème/noir
- * - Services : Sites web, Apps, Backend/API, Hébergement
+ * - Cartes crème/noir avec reveal animation
+ * - Hover effects premium
  */
 
 interface Service {
@@ -43,11 +46,40 @@ const services: Service[] = [
     features: ['SSL inclus', 'Backups auto', 'Monitoring 24/7', 'Support'],
   },
 ]
+
+// Refs
+const sectionRef = ref<HTMLElement | null>(null)
+const gridRef = ref<HTMLElement | null>(null)
+
+// Animations
+const { revealText, revealCards, destroy: destroyReveal } = useSectionReveal()
+const { initCardHover, destroy: destroyMicro } = useMicroInteractions()
+
+onMounted(() => {
+  nextTick(() => {
+    // Reveal animations
+    if (sectionRef.value) {
+      revealText(sectionRef)
+    }
+    if (gridRef.value) {
+      revealCards(gridRef)
+      // Hover effects
+      const cards = gridRef.value.querySelectorAll('.service-card')
+      initCardHover(cards)
+    }
+  })
+})
+
+onUnmounted(() => {
+  destroyReveal()
+  destroyMicro()
+})
 </script>
 
 <template>
   <section
     id="services"
+    ref="sectionRef"
     class="bg-cream section-padding"
   >
     <div class="container-alp">
@@ -62,14 +94,17 @@ const services: Service[] = [
       </div>
 
       <!-- Services Grid -->
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <div
+        ref="gridRef"
+        class="grid grid-cols-1 md:grid-cols-2 gap-8"
+      >
         <article
           v-for="service in services"
           :key="service.id"
-          class="card-premium p-8"
+          class="service-card card-premium p-8 cursor-pointer"
         >
           <!-- Icon -->
-          <div class="w-14 h-14 rounded-2xl bg-cream-dark flex items-center justify-center mb-6">
+          <div class="w-14 h-14 rounded-2xl bg-cream-dark flex items-center justify-center mb-6 transition-transform duration-300 group-hover:scale-110">
             <Icon
               :name="service.icon"
               class="w-7 h-7 text-alp-black"
@@ -93,7 +128,7 @@ const services: Service[] = [
             >
               <Icon
                 name="lucide:check"
-                class="w-4 h-4 text-brown"
+                class="w-4 h-4 text-green-600"
               />
               <span>{{ feature }}</span>
             </li>

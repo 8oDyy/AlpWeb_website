@@ -1,24 +1,67 @@
 <script setup lang="ts">
+import { useHeroAnimations } from '~/composables/useHeroAnimations'
+
 /**
  * Hero Section - AlpWeb
  * - Fond avec montagnes SVG en couches (crème/noir)
  * - Logo + baseline + CTA
- * - Prêt pour animations GSAP (feat/scroll-animations)
+ * - Animations GSAP : parallax, pin, stagger
  */
+
+// Refs
+const heroRef = ref<HTMLElement | null>(null)
+const logoRef = ref<HTMLElement | null>(null)
+const contentRef = ref<HTMLElement | null>(null)
+const mountainLayersRef = ref<HTMLElement | null>(null)
+const mountainLayers = ref<HTMLElement[]>([])
+
+// Animations
+const { init: initAnimations, destroy: destroyAnimations } = useHeroAnimations()
+
+onMounted(() => {
+  // Get mountain layers from child component
+  if (mountainLayersRef.value) {
+    const layers = mountainLayersRef.value.querySelectorAll('.mountain-layer')
+    mountainLayers.value = Array.from(layers) as HTMLElement[]
+  }
+
+  // Initialize animations
+  nextTick(() => {
+    initAnimations({
+      heroRef,
+      logoRef,
+      contentRef,
+      mountainLayers,
+    })
+  })
+})
+
+onUnmounted(() => {
+  destroyAnimations()
+})
 </script>
 
 <template>
   <section
     id="hero"
+    ref="heroRef"
     class="relative min-h-screen flex items-center justify-center overflow-hidden"
   >
     <!-- Mountain Layers Background -->
-    <UiMountainLayers class="z-0" />
+    <div ref="mountainLayersRef">
+      <UiMountainLayers class="z-0" />
+    </div>
 
     <!-- Content -->
-    <div class="container-alp relative z-10 text-center pt-20">
+    <div
+      ref="contentRef"
+      class="container-alp relative z-10 text-center pt-20"
+    >
       <!-- Eyebrow -->
-      <div class="mb-6">
+      <div
+        data-animate
+        class="mb-6"
+      >
         <span class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-alp-black/5 text-alp-black-soft text-sm font-medium">
           <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
           Disponible pour nouveaux projets
@@ -26,30 +69,43 @@
       </div>
 
       <!-- Logo / Brand -->
-      <div class="mb-6">
+      <div
+        ref="logoRef"
+        data-animate
+        class="mb-6"
+      >
         <h1 class="text-7xl md:text-8xl lg:text-[10rem] font-bold font-display text-alp-black leading-none tracking-tight">
           AlpWeb
         </h1>
       </div>
 
       <!-- Baseline -->
-      <p class="text-lg md:text-xl lg:text-2xl text-alp-black-muted font-medium tracking-widest uppercase mb-12">
+      <p
+        data-animate
+        class="text-lg md:text-xl lg:text-2xl text-alp-black-muted font-medium tracking-widest uppercase mb-12"
+      >
         Web Agency • Apps • Hosting
       </p>
 
       <!-- Description -->
-      <p class="text-lg md:text-xl text-alp-black-soft max-w-2xl mx-auto mb-12 leading-relaxed">
+      <p
+        data-animate
+        class="text-lg md:text-xl text-alp-black-soft max-w-2xl mx-auto mb-12 leading-relaxed"
+      >
         Nous créons des expériences digitales premium pour les entreprises ambitieuses.
         Sites vitrines, applications iOS, plateformes sur-mesure.
       </p>
 
       <!-- CTA -->
-      <div class="flex flex-col sm:flex-row gap-4 justify-center">
+      <div
+        data-animate
+        class="flex flex-col sm:flex-row gap-4 justify-center"
+      >
         <UButton
           size="xl"
           color="neutral"
           variant="solid"
-          class="bg-alp-black text-cream hover:bg-alp-black/90 px-8 py-4 text-base font-semibold shadow-lg shadow-black/10"
+          class="btn-magnetic bg-alp-black text-cream hover:bg-alp-black/90 px-8 py-4 text-base font-semibold shadow-lg shadow-black/10 transition-transform"
         >
           <Icon
             name="lucide:message-circle"
@@ -60,7 +116,7 @@
         <UButton
           size="xl"
           variant="ghost"
-          class="text-alp-black hover:bg-alp-black/5 px-8 py-4 text-base font-semibold"
+          class="text-alp-black hover:bg-alp-black/5 px-8 py-4 text-base font-semibold transition-transform"
         >
           Voir nos réalisations
           <Icon
@@ -72,7 +128,10 @@
     </div>
 
     <!-- Scroll Indicator -->
-    <div class="absolute bottom-8 left-1/2 -translate-x-1/2 z-10">
+    <div
+      data-scroll-indicator
+      class="absolute bottom-8 left-1/2 -translate-x-1/2 z-10"
+    >
       <a
         href="#showcase"
         class="flex flex-col items-center gap-2 text-alp-black-muted hover:text-alp-black transition-colors"

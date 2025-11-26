@@ -1,8 +1,11 @@
 <script setup lang="ts">
+import { useSectionReveal } from '~/composables/useSectionReveal'
+import { useMicroInteractions } from '~/composables/useMicroInteractions'
+
 /**
  * Stack Section
  * - Logos/tags des technos
- * - Micro-animation au hover (à implémenter)
+ * - Stagger reveal + hover animations
  */
 
 interface TechItem {
@@ -31,11 +34,38 @@ const technologies: TechItem[] = [
   { name: 'GitHub', icon: 'logos:github-icon', category: 'infra' },
   { name: 'Cloudflare', icon: 'logos:cloudflare-icon', category: 'infra' },
 ]
+
+// Refs
+const sectionRef = ref<HTMLElement | null>(null)
+const gridRef = ref<HTMLElement | null>(null)
+
+// Animations
+const { revealText, revealCards, destroy: destroyReveal } = useSectionReveal()
+const { initCardHover, destroy: destroyMicro } = useMicroInteractions()
+
+onMounted(() => {
+  nextTick(() => {
+    if (sectionRef.value) {
+      revealText(sectionRef)
+    }
+    if (gridRef.value) {
+      revealCards(gridRef, '.tech-card')
+      const cards = gridRef.value.querySelectorAll('.tech-card')
+      initCardHover(cards)
+    }
+  })
+})
+
+onUnmounted(() => {
+  destroyReveal()
+  destroyMicro()
+})
 </script>
 
 <template>
   <section
     id="stack"
+    ref="sectionRef"
     class="bg-cream section-padding"
   >
     <div class="container-alp">
@@ -50,15 +80,18 @@ const technologies: TechItem[] = [
       </div>
 
       <!-- Tech Grid -->
-      <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7 gap-4">
+      <div
+        ref="gridRef"
+        class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7 gap-4"
+      >
         <div
           v-for="tech in technologies"
           :key="tech.name"
-          class="card-premium p-4 flex flex-col items-center justify-center gap-3 aspect-square"
+          class="tech-card card-premium p-4 flex flex-col items-center justify-center gap-3 aspect-square cursor-pointer"
         >
           <Icon
             :name="tech.icon"
-            class="w-10 h-10"
+            class="w-10 h-10 transition-transform duration-300"
           />
           <span class="text-sm font-medium text-alp-black-soft text-center">
             {{ tech.name }}
