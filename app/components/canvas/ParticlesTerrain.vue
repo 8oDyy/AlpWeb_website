@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { ShallowRef } from 'vue'
+// @ts-ignore - useRenderLoop is a named export in v5 but IDE might be confused
 import { useRenderLoop } from '@tresjs/core'
 import * as THREE from 'three'
 
@@ -47,6 +48,8 @@ onLoop(({ elapsed }: { elapsed: number }) => {
   for (let i = 0; i < count; i++) {
     const i3 = i * 3
     const x = array[i3]
+    if (x === undefined) continue
+    
     // Wave effect
     array[i3 + 1] = originalY[i] + Math.sin(elapsed + x * 0.5) * 0.5
   }
