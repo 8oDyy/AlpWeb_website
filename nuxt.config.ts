@@ -3,10 +3,11 @@ export default defineNuxtConfig({
 
   // Modules
   modules: [
-    '@nuxt/ui',
+    '@nuxtjs/tailwindcss',
     '@nuxt/fonts',
     '@nuxt/icon',
     '@nuxt/eslint',
+    '@tresjs/nuxt',
   ],
   devtools: { enabled: true },
 

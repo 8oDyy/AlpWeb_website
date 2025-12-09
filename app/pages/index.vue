@@ -1,7 +1,7 @@
 <script setup lang="ts">
 /**
  * Homepage - AlpWeb
- * Structure complète sans animations (à ajouter dans feat/scroll-animations)
+ * Expérience Immersive "L'Ascension Digitale"
  */
 
 definePageMeta({
@@ -19,23 +19,35 @@ useSeoMeta({
 </script>
 
 <template>
-  <div>
-    <!-- Hero -->
-    <SectionsHeroSection />
+  <div class="relative">
+    <!-- Chapitre 1 : L'Éveil (z-10) -->
+    <div class="relative z-10">
+      <ChaptersChapterHero />
+    </div>
 
-    <!-- Showcase / Scrollytelling -->
-    <SectionsShowcaseSection />
+    <!-- Chapitre 2 : L'Exploration (z-20) - Passe par dessus le Hero -->
+    <div class="relative z-20">
+      <ChaptersChapterShowcase />
+    </div>
 
-    <!-- Services -->
-    <SectionsServicesSection />
+    <!-- Chapitre 3 : La Révélation (z-30) -->
+    <div class="relative z-30">
+      <ChaptersChapterServices />
+    </div>
 
-    <!-- Process -->
-    <SectionsProcessSection />
+    <!-- Chapitre 4 : La Méthode (z-40) -->
+    <div class="relative z-40">
+      <ChaptersChapterProcess />
+    </div>
 
-    <!-- Stack -->
-    <SectionsStackSection />
+    <!-- Chapitre 5 : Stack (z-50) -->
+    <div class="relative z-50">
+      <ChaptersChapterStack />
+    </div>
 
-    <!-- CTA -->
-    <SectionsCtaSection />
+    <!-- Chapitre 6 : L'Atterrissage (z-60) -->
+    <div class="relative z-60">
+      <ChaptersChapterCta />
+    </div>
   </div>
 </template>

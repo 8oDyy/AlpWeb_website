@@ -1,8 +1,12 @@
 <script setup lang="ts">
+import { useProcessTimeline } from '~/composables/useProcessTimeline'
+import { useSectionReveal } from '~/composables/useSectionReveal'
+
 /**
  * Process Section
  * - 4 étapes : Découverte → Design → Dev/Test → Déploiement
- * - Timeline animée au scroll (à implémenter)
+ * - Timeline animée au scroll
+ * - Étapes qui s'allument progressivement
  */
 
 interface ProcessStep {
@@ -43,11 +47,46 @@ const steps: ProcessStep[] = [
     icon: 'lucide:rocket',
   },
 ]
+
+// Refs
+const sectionRef = ref<HTMLElement | null>(null)
+const lineRef = ref<HTMLElement | null>(null)
+const stepsRef = ref<HTMLElement[]>([])
+
+// Animations
+const { init: initTimeline, destroy: destroyTimeline } = useProcessTimeline()
+const { revealText, destroy: destroyReveal } = useSectionReveal()
+
+function setStepRef(el: HTMLElement | null, index: number) {
+  if (el) stepsRef.value[index] = el
+}
+
+onMounted(() => {
+  nextTick(() => {
+    // Header reveal
+    if (sectionRef.value) {
+      revealText(sectionRef)
+    }
+
+    // Timeline animation
+    initTimeline({
+      sectionRef,
+      lineRef,
+      stepsRef,
+    })
+  })
+})
+
+onUnmounted(() => {
+  destroyTimeline()
+  destroyReveal()
+})
 </script>
 
 <template>
   <section
     id="process"
+    ref="sectionRef"
     class="bg-cream-dark section-padding"
   >
     <div class="container-alp">
@@ -63,25 +102,37 @@ const steps: ProcessStep[] = [
 
       <!-- Process Timeline -->
       <div class="relative">
-        <!-- Timeline Line (desktop) -->
-        <div class="hidden lg:block absolute top-24 left-0 right-0 h-0.5 bg-cream" />
+        <!-- Timeline Line (desktop) - animated -->
+        <div class="hidden lg:block absolute top-24 left-0 right-0 h-0.5 bg-cream overflow-hidden">
+          <div
+            ref="lineRef"
+            class="absolute inset-0 bg-alp-black origin-left scale-x-0"
+          />
+        </div>
 
         <!-- Steps -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           <div
-            v-for="step in steps"
+            v-for="(step, index) in steps"
             :key="step.id"
-            class="relative"
+            :ref="(el) => setStepRef(el as HTMLElement, index)"
+            class="relative process-step"
           >
             <!-- Step Card -->
             <div class="card-premium p-6 h-full">
               <!-- Number Badge -->
-              <div class="w-12 h-12 rounded-full bg-alp-black text-cream flex items-center justify-center font-bold font-display text-lg mb-6">
+              <div
+                data-step-number
+                class="w-12 h-12 rounded-full bg-alp-black text-cream flex items-center justify-center font-bold font-display text-lg mb-6"
+              >
                 {{ step.number }}
               </div>
 
               <!-- Icon -->
-              <div class="w-10 h-10 rounded-xl bg-cream-dark flex items-center justify-center mb-4">
+              <div
+                data-step-icon
+                class="w-10 h-10 rounded-xl bg-cream-dark flex items-center justify-center mb-4"
+              >
                 <Icon
                   :name="step.icon"
                   class="w-5 h-5 text-alp-black"

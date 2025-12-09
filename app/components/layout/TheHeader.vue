@@ -30,7 +30,7 @@ const isMobileMenuOpen = ref(false)
               v-for="link in navLinks"
               :key="link.href"
               :to="link.href"
-              class="text-alp-black-soft hover:text-alp-black transition-colors font-medium"
+              class="text-alp-black-soft hover:text-alp-black transition-colors font-medium link-animated"
             >
               {{ link.label }}
             </NuxtLink>
@@ -38,13 +38,12 @@ const isMobileMenuOpen = ref(false)
 
           <!-- CTA Button -->
           <div class="hidden md:block">
-            <UButton
-              color="neutral"
-              variant="solid"
-              class="bg-alp-black text-cream hover:bg-alp-black/90"
+            <UiAlpButton
+              size="md"
+              variant="primary"
             >
               Parlons de votre projet
-            </UButton>
+            </UiAlpButton>
           </div>
 
           <!-- Mobile Menu Button -->
@@ -70,18 +69,18 @@ const isMobileMenuOpen = ref(false)
               v-for="link in navLinks"
               :key="link.href"
               :to="link.href"
-              class="text-alp-black-soft hover:text-alp-black transition-colors font-medium py-2"
+              class="text-alp-black-soft hover:text-alp-black transition-colors font-medium py-2 link-animated w-fit"
               @click="isMobileMenuOpen = false"
             >
               {{ link.label }}
             </NuxtLink>
-            <UButton
-              color="neutral"
-              variant="solid"
-              class="bg-alp-black text-cream hover:bg-alp-black/90 w-full mt-2"
+            <UiAlpButton
+              size="md"
+              variant="primary"
+              class="w-full mt-2"
             >
               Parlons de votre projet
-            </UButton>
+            </UiAlpButton>
           </div>
         </div>
       </nav>

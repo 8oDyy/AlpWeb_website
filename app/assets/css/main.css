@@ -1,5 +1,6 @@
-@import 'tailwindcss';
-@import '@nuxt/ui';
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 /* ========================================
    ALPWEB - Main Stylesheet
@@ -79,46 +80,25 @@ h1, h2, h3, h4, h5, h6 {
   visibility: hidden;
 }
 
-/* Scroll animations base states */
-[data-animate] {
-  opacity: 0;
-}
-
-[data-animate="fade-up"] {
-  transform: translateY(50px);
-}
-
-[data-animate="fade-down"] {
-  transform: translateY(-50px);
-}
-
-[data-animate="fade-left"] {
-  transform: translateX(50px);
-}
-
-[data-animate="fade-right"] {
-  transform: translateX(-50px);
-}
-
-[data-animate="scale"] {
-  transform: scale(0.9);
-}
+/* Scroll animations - GSAP handles initial states */
 
 /* ----------------------------------------
    AlpWeb Design System - Utilities
    ---------------------------------------- */
 
-/* Background colors */
+/* Background colors - Modified for 3D Experience */
 .bg-cream {
-  background-color: var(--color-cream);
+  background-color: transparent; /* Was var(--color-cream) */
 }
 
 .bg-cream-dark {
-  background-color: var(--color-cream-dark);
+  background-color: rgba(235, 228, 216, 0.3); /* Semi-transparent */
+  backdrop-filter: blur(10px);
 }
 
 .bg-cream-light {
-  background-color: var(--color-cream-light);
+  background-color: rgba(250, 248, 245, 0.5);
+  backdrop-filter: blur(5px);
 }
 
 .bg-alp-black {
@@ -184,9 +164,95 @@ h1, h2, h3, h4, h5, h6 {
   border: 1px solid var(--color-cream-dark);
   border-radius: 1rem;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
 }
 
 .card-premium:hover {
   transform: translateY(-4px);
   box-shadow: 0 20px 40px -12px rgba(26, 26, 26, 0.1);
+}
+
+/* ----------------------------------------
+   Micro-interactions Premium
+   ---------------------------------------- */
+
+/* Animated underline links */
+.link-animated {
+  position: relative;
+  text-decoration: none;
+}
+
+.link-animated::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background: currentColor;
+  transition: width 0.3s ease;
+}
+
+.link-animated:hover::after {
+  width: 100%;
+}
+
+/* Button magnetic effect placeholder */
+.btn-magnetic {
+  transition: transform 0.2s ease;
+}
+
+/* Smooth image reveal */
+.image-reveal {
+  overflow: hidden;
+}
+
+.image-reveal img {
+  transition: transform 0.6s ease;
+}
+
+.image-reveal:hover img {
+  transform: scale(1.05);
+}
+
+/* Gradient text */
+.text-gradient {
+  background: linear-gradient(135deg, var(--color-black) 0%, var(--color-black-muted) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Section transitions */
+.section-fade {
+  position: relative;
+}
+
+.section-fade::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 100px;
+  background: linear-gradient(to bottom, var(--color-cream), transparent);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Will-change optimization for animations */
+.will-animate {
+  will-change: transform, opacity;
+}
+
+/* Reduce motion for accessibility */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
