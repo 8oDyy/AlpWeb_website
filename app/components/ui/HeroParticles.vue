@@ -98,7 +98,6 @@ onUnmounted(() => {
     transform: scale(0.5);
   }
   100% {
-    opacity: var(--particle-opacity, 0.2);
     transform: scale(1);
   }
 }
