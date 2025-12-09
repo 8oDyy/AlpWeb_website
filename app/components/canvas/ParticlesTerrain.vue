@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import type { ShallowRef } from 'vue'
-// @ts-ignore - useRenderLoop is a named export in v5 but IDE might be confused
+// @ts-expect-error - useRenderLoop is a named export in v5 but IDE might be confused
 import { useRenderLoop } from '@tresjs/core'
 import * as THREE from 'three'
 
@@ -30,7 +29,7 @@ for (let i = 0; i < count; i++) {
   positions[i3] = x
   positions[i3 + 1] = y
   positions[i3 + 2] = z
-  
+
   originalY[i] = y
 }
 
@@ -39,23 +38,23 @@ const { onLoop } = useRenderLoop()
 
 onLoop(({ elapsed }: { elapsed: number }) => {
   if (!bufferRef.value) return
-  
+
   const positionAttribute = bufferRef.value.attributes.position
   if (!positionAttribute) return
 
   const array = positionAttribute.array as Float32Array
-  
+
   for (let i = 0; i < count; i++) {
     const i3 = i * 3
     const x = array[i3]
     const y = originalY[i]
-    
+
     if (x === undefined || y === undefined) continue
-    
+
     // Wave effect
     array[i3 + 1] = y + Math.sin(elapsed + x * 0.5) * 0.5
   }
-  
+
   positionAttribute.needsUpdate = true
 })
 </script>

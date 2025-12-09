@@ -75,14 +75,21 @@ onUnmounted(() => {
           data-cta-animate
           class="flex flex-col sm:flex-row gap-4 justify-center"
         >
-          <UiAlpButton size="xl" variant="secondary">
+          <UiAlpButton
+            size="xl"
+            variant="secondary"
+          >
             <Icon
               name="lucide:mail"
               class="w-5 h-5 mr-2"
             />
             Nous contacter
           </UiAlpButton>
-          <UiAlpButton size="xl" variant="ghost" class="border border-cream/30 text-cream hover:bg-cream/10">
+          <UiAlpButton
+            size="xl"
+            variant="ghost"
+            class="border border-cream/30 text-cream hover:bg-cream/10"
+          >
             <Icon
               name="lucide:calendar"
               class="w-5 h-5 mr-2"

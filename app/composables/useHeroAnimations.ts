@@ -38,19 +38,19 @@ export function useHeroAnimations() {
           gsap.set(logoText, {
             strokeDasharray: 1000,
             strokeDashoffset: 1000,
-            fill: 'transparent'
+            fill: 'transparent',
           })
 
           enterTl.to(logoText, {
             strokeDashoffset: 0,
             duration: 1.5,
-            ease: 'power2.inOut'
+            ease: 'power2.inOut',
           })
-          .to(logoText, {
-            fill: '#1A1A1A',
-            duration: 1,
-            ease: 'power2.out'
-          }, '-=0.5')
+            .to(logoText, {
+              fill: '#1A1A1A',
+              duration: 1,
+              ease: 'power2.out',
+            }, '-=0.5')
         }
       }
 
@@ -71,7 +71,7 @@ export function useHeroAnimations() {
       if (mountainLayers.value.length > 0) {
         mountainLayers.value.forEach((layer, i) => {
           const speed = (i + 1) * 30
-          
+
           gsap.to(layer, {
             y: speed,
             ease: 'none',
@@ -107,7 +107,7 @@ export function useHeroAnimations() {
           scrollTrigger: {
             trigger: heroRef.value,
             start: 'top top',
-            end: '40% top', // Fade out slightly faster to clear the way
+            end: '30% top', // Disparition plus rapide
             scrub: true,
           },
         })

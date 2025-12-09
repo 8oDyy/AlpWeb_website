@@ -38,7 +38,10 @@ const isMobileMenuOpen = ref(false)
 
           <!-- CTA Button -->
           <div class="hidden md:block">
-            <UiAlpButton size="md" variant="primary">
+            <UiAlpButton
+              size="md"
+              variant="primary"
+            >
               Parlons de votre projet
             </UiAlpButton>
           </div>
@@ -71,7 +74,11 @@ const isMobileMenuOpen = ref(false)
             >
               {{ link.label }}
             </NuxtLink>
-            <UiAlpButton size="md" variant="primary" class="w-full mt-2">
+            <UiAlpButton
+              size="md"
+              variant="primary"
+              class="w-full mt-2"
+            >
               Parlons de votre projet
             </UiAlpButton>
           </div>

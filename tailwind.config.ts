@@ -3,12 +3,12 @@ import type { Config } from 'tailwindcss'
 export default <Config>{
   content: [
     './app/**/*.{vue,js,ts,jsx,tsx}',
-    './app/app.vue'
+    './app/app.vue',
   ],
   theme: {
     extend: {
       colors: {
-        cream: '#F5F0E8',
+        'cream': '#F5F0E8',
         'cream-dark': '#EBE4D8',
         'cream-light': '#FAF8F5',
         'alp-black': '#1A1A1A',

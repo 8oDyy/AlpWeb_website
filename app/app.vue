@@ -14,7 +14,7 @@ const TheExperience = defineAsyncComponent(() => import('~/components/canvas/The
     <ClientOnly>
       <TheExperience />
     </ClientOnly>
-    
+
     <NuxtRouteAnnouncer />
     <NuxtLayout>
       <NuxtPage />

@@ -41,7 +41,7 @@ export function useShowcaseScroller() {
           pin: true,
           scrub: 0.5, // Adjust scrub amount to slow down the horizontal scroll
           // Multiply by 2 to make it feel longer and more substantial
-          end: () => `+=${getScrollWidth() * 2}`, 
+          end: () => `+=${getScrollWidth() * 2}`,
           invalidateOnRefresh: true,
         },
       })
@@ -50,7 +50,7 @@ export function useShowcaseScroller() {
       if (slidesRef.value.length > 0) {
         slidesRef.value.forEach((slide) => {
           // Slide reveal avec rotation 3D (Entrée)
-          gsap.fromTo(slide, 
+          gsap.fromTo(slide,
             {
               opacity: 0,
               scale: 0.9,
@@ -68,7 +68,7 @@ export function useShowcaseScroller() {
                 end: 'center center', // Jusqu'au centre
                 scrub: true,
               },
-            }
+            },
           )
 
           // Slide exit (Sortie)
@@ -88,22 +88,22 @@ export function useShowcaseScroller() {
           // Internal Parallax for Content
           const innerContent = slide.querySelectorAll('.card-premium > div')
           if (innerContent.length > 0) {
-             gsap.fromTo(innerContent, 
-               { x: 40 },
-               {
-                 x: -40,
-                 ease: 'none',
-                 scrollTrigger: {
-                   trigger: slide,
-                   containerAnimation: horizontalTween!,
-                   start: 'left right',
-                   end: 'right left',
-                   scrub: true,
-                 }
-               }
-             )
+            gsap.fromTo(innerContent,
+              { x: 40 },
+              {
+                x: -40,
+                ease: 'none',
+                scrollTrigger: {
+                  trigger: slide,
+                  containerAnimation: horizontalTween!,
+                  start: 'left right',
+                  end: 'right left',
+                  scrub: true,
+                },
+              },
+            )
           }
-          
+
           // Contenu de la slide (titre, description, tags)
           const content = slide.querySelectorAll('[data-slide-content]')
           if (content.length > 0) {
