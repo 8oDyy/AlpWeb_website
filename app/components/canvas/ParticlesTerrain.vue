@@ -1,6 +1,5 @@
 <script setup lang="ts">
-// @ts-expect-error - useRenderLoop is a named export in v5 but IDE might be confused
-import { useRenderLoop } from '@tresjs/core'
+import { useLoop } from '@tresjs/core'
 import * as THREE from 'three'
 
 const props = defineProps<{
@@ -34,9 +33,9 @@ for (let i = 0; i < count; i++) {
 }
 
 // Animation loop
-const { onLoop } = useRenderLoop()
+const { onBeforeRender } = useLoop()
 
-onLoop(({ elapsed }: { elapsed: number }) => {
+onBeforeRender(({ elapsed }: { elapsed: number }) => {
   if (!bufferRef.value) return
 
   const positionAttribute = bufferRef.value.attributes.position
