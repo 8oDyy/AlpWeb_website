@@ -20,8 +20,8 @@ useSeoMeta({
 
 <template>
   <div class="relative">
-    <!-- Chapitre 1 : L'Éveil (z-10) -->
-    <div class="relative z-10">
+    <!-- Chapitre 1 : L'Éveil - transparent to show 3D canvas behind -->
+    <div class="relative z-0">
       <ChaptersChapterHero />
     </div>
 

@@ -105,6 +105,13 @@ onUnmounted(() => {
     ref="heroRef"
     class="relative min-h-screen flex items-center justify-center pointer-events-none"
   >
+    <!-- Subtle gradient background -->
+    <div class="absolute inset-0 bg-gradient-to-br from-cream via-cream-light to-cream-dark opacity-70 z-0" />
+    <div class="absolute inset-0 bg-gradient-to-t from-transparent via-transparent to-[#C4A77D]/15 z-0" />
+
+    <!-- Floating particles background -->
+    <UiHeroParticles />
+
     <!-- Content - Pointer events auto to interact with buttons -->
     <div
       ref="contentRef"

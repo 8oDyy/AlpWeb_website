@@ -57,12 +57,14 @@ export function useHeroAnimations() {
       // 2. Content Stagger
       if (contentRef.value) {
         const elements = contentRef.value.querySelectorAll('[data-animate]')
-        enterTl.from(elements, {
-          opacity: 0,
-          y: 40,
-          duration: 0.8,
-          stagger: 0.1,
-        }, '-=1')
+        if (elements.length > 0) {
+          enterTl.from(elements, {
+            opacity: 0,
+            y: 40,
+            duration: 0.8,
+            stagger: 0.1,
+          }, '-=1')
+        }
       }
 
       // --- Scroll Animations ---
