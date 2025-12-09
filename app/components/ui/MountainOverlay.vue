@@ -99,7 +99,6 @@ onUnmounted(() => {
       <!-- Couche 1 - Arrière plan (petites montagnes lointaines) -->
       <g
         ref="layer1Ref"
-        class="will-change-transform"
       >
         <polygon
           :fill="props.color"
@@ -116,7 +115,6 @@ onUnmounted(() => {
       <!-- Couche 2 - Montagnes moyennes -->
       <g
         ref="layer2Ref"
-        class="will-change-transform"
       >
         <polygon
           :fill="props.color"
@@ -133,7 +131,6 @@ onUnmounted(() => {
       <!-- Couche 3 - Grandes montagnes -->
       <g
         ref="layer3Ref"
-        class="will-change-transform"
       >
         <polygon
           :fill="props.color"
@@ -150,7 +147,6 @@ onUnmounted(() => {
       <!-- Couche 4 - Premier plan (montagnes proches) -->
       <g
         ref="layer4Ref"
-        class="will-change-transform"
       >
         <polygon
           :fill="props.color"

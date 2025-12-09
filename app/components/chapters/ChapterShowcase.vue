@@ -258,6 +258,6 @@ const currentItem = computed((): ShowcaseItem => {
 
 <style scoped>
 .showcase-card {
-  will-change: transform, opacity;
+  transform: translateZ(0);
 }
 </style>
