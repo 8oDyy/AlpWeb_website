@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { useSectionReveal } from '~/composables/useSectionReveal'
-import { useMicroInteractions } from '~/composables/useMicroInteractions'
+import { useServicesScrollytelling } from '~/composables/useServicesScrollytelling'
 
 /**
- * Services Section
- * - Cartes crème/noir avec reveal animation
- * - Hover effects premium
+ * Services Section - Premium Scrollytelling
+ * - Lenis-driven narrative progression
+ * - 5 scenes: intro + 4 service cards
+ * - Scroll-synchronized animations
  */
 
 interface Service {
@@ -47,93 +47,142 @@ const services: Service[] = [
   },
 ]
 
-// Refs
-const sectionRef = ref<HTMLElement | null>(null)
-const gridRef = ref<HTMLElement | null>(null)
+// Refs for scrollytelling
+const containerRef = ref<HTMLElement | null>(null)
+const headerRef = ref<HTMLElement | null>(null)
+const titleRef = ref<HTMLElement | null>(null)
+const subtitleRef = ref<HTMLElement | null>(null)
+const titleLineRef = ref<HTMLElement | null>(null)
+const cardsWrapperRef = ref<HTMLElement | null>(null)
+const cardRefs = ref<HTMLElement[]>([])
+const iconRefs = ref<HTMLElement[]>([])
+const cardContentRefs = ref<HTMLElement[]>([])
 
-// Animations
-const { revealText, revealCards, destroy: destroyReveal } = useSectionReveal()
-const { initCardHover, destroy: destroyMicro } = useMicroInteractions()
+// Scrollytelling system
+const { init, destroy, currentScene } = useServicesScrollytelling()
 
 onMounted(() => {
   nextTick(() => {
-    // Reveal animations
-    if (sectionRef.value) {
-      revealText(sectionRef)
-    }
-    if (gridRef.value) {
-      revealCards(gridRef)
-      // Hover effects
-      const cards = gridRef.value.querySelectorAll('.service-card')
-      initCardHover(cards)
-    }
+    init({
+      container: containerRef,
+      header: headerRef,
+      title: titleRef,
+      subtitle: subtitleRef,
+      titleLine: titleLineRef,
+      cardsWrapper: cardsWrapperRef,
+      cards: cardRefs,
+      icons: iconRefs,
+      cardContents: cardContentRefs,
+    })
   })
 })
 
 onUnmounted(() => {
-  destroyReveal()
-  destroyMicro()
+  destroy()
 })
 </script>
 
 <template>
   <section
     id="services"
-    ref="sectionRef"
-    class="bg-cream section-padding"
+    ref="containerRef"
+    class="services-scrollytelling bg-cream min-h-screen relative overflow-hidden"
   >
-    <div class="container-alp">
+    <!-- Progress indicator (subtle) -->
+    <div class="fixed top-1/2 right-8 -translate-y-1/2 z-50 hidden lg:flex flex-col gap-2">
+      <div
+        v-for="(_, index) in services"
+        :key="index"
+        class="w-1.5 h-8 rounded-full transition-all duration-500"
+        :class="currentScene >= index + 1 ? 'bg-alp-black' : 'bg-alp-black/20'"
+      />
+    </div>
+
+    <div class="container-alp h-screen flex flex-col justify-center py-20">
       <!-- Section Header -->
-      <div class="text-center mb-16">
-        <h2 class="text-4xl md:text-5xl lg:text-6xl font-bold font-display text-alp-black mb-6">
+      <div
+        ref="headerRef"
+        class="text-center mb-12"
+      >
+        <h2
+          ref="titleRef"
+          class="text-4xl md:text-5xl lg:text-6xl font-bold font-display text-alp-black mb-4 opacity-0"
+        >
           Nos services
         </h2>
-        <p class="text-lg text-alp-black-muted max-w-2xl mx-auto">
+        <!-- Title underline -->
+        <div
+          ref="titleLineRef"
+          class="w-20 h-0.5 bg-alp-black/30 mx-auto mb-6 scale-x-0"
+        />
+        <p
+          ref="subtitleRef"
+          class="text-lg md:text-xl text-alp-black-muted max-w-2xl mx-auto opacity-0"
+        >
           Une expertise complète pour donner vie à vos projets digitaux.
         </p>
       </div>
 
-      <!-- Services Grid -->
+      <!-- Services Grid - Scrollytelling Cards -->
       <div
-        ref="gridRef"
-        class="grid grid-cols-1 md:grid-cols-2 gap-8"
+        ref="cardsWrapperRef"
+        class="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 flex-1 max-h-[60vh]"
       >
         <article
-          v-for="service in services"
+          v-for="(service, index) in services"
           :key="service.id"
-          class="service-card card-premium p-8 cursor-pointer"
+          :ref="(el) => { if (el) cardRefs[index] = el as HTMLElement }"
+          class="service-card relative bg-white rounded-3xl p-6 lg:p-8 shadow-sm border border-black/5 transition-shadow duration-500 opacity-0 translate-y-12"
         >
-          <!-- Icon -->
-          <div class="w-14 h-14 rounded-2xl bg-cream-dark flex items-center justify-center mb-6 transition-transform duration-300 group-hover:scale-110">
+          <!-- Icon Container -->
+          <div
+            :ref="(el) => { if (el) iconRefs[index] = el as HTMLElement }"
+            class="service-icon w-14 h-14 rounded-2xl bg-cream flex items-center justify-center mb-5"
+          >
             <Icon
               :name="service.icon"
               class="w-7 h-7 text-alp-black"
             />
           </div>
 
-          <!-- Content -->
-          <h3 class="text-2xl font-semibold font-display text-alp-black mb-4">
-            {{ service.title }}
-          </h3>
-          <p class="text-alp-black-muted mb-6">
-            {{ service.description }}
-          </p>
-
-          <!-- Features -->
-          <ul class="space-y-2">
-            <li
-              v-for="feature in service.features"
-              :key="feature"
-              class="flex items-center gap-2 text-alp-black-soft"
-            >
-              <Icon
-                name="lucide:check"
-                class="w-4 h-4 text-green-600"
+          <!-- Card Content -->
+          <div :ref="(el) => { if (el) cardContentRefs[index] = el as HTMLElement }">
+            <h3 class="text-xl lg:text-2xl font-semibold font-display text-alp-black mb-3 relative">
+              {{ service.title }}
+              <!-- Decorative underline for last card -->
+              <span
+                v-if="index === services.length - 1"
+                class="card-underline absolute -bottom-1 left-0 w-12 h-0.5 bg-alp-black/20 origin-left scale-x-0"
               />
-              <span>{{ feature }}</span>
-            </li>
-          </ul>
+            </h3>
+            <p class="text-alp-black-muted mb-5 text-sm lg:text-base leading-relaxed">
+              {{ service.description }}
+            </p>
+
+            <!-- Features -->
+            <ul class="space-y-2">
+              <li
+                v-for="feature in service.features"
+                :key="feature"
+                class="flex items-center gap-2 text-alp-black-soft text-sm"
+              >
+                <Icon
+                  name="lucide:check"
+                  class="w-4 h-4 text-green-600 flex-shrink-0"
+                />
+                <span>{{ feature }}</span>
+              </li>
+            </ul>
+          </div>
         </article>
+      </div>
+
+      <!-- Scroll hint -->
+      <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-50">
+        <span class="text-xs text-alp-black-muted uppercase tracking-widest">Scroll</span>
+        <div class="w-5 h-8 rounded-full border-2 border-alp-black/30 flex justify-center pt-1">
+          <div class="w-1 h-2 bg-alp-black/40 rounded-full animate-bounce" />
+        </div>
       </div>
     </div>
   </section>
