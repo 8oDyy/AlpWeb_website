@@ -2,10 +2,9 @@
 import { useServicesScrollytelling } from '~/composables/useServicesScrollytelling'
 
 /**
- * Services Section - Premium Scrollytelling
- * - Lenis-driven narrative progression
- * - 5 scenes: intro + 4 service cards
- * - Scroll-synchronized animations
+ * Services Section
+ * - Desktop: Premium Scrollytelling with pinned section
+ * - Mobile: Classic scroll with simple animations
  */
 
 interface Service {
@@ -47,7 +46,10 @@ const services: Service[] = [
   },
 ]
 
-// Refs for scrollytelling
+// Detect if desktop
+const isDesktop = ref(false)
+
+// Refs for scrollytelling (desktop only)
 const containerRef = ref<HTMLElement | null>(null)
 const headerRef = ref<HTMLElement | null>(null)
 const titleRef = ref<HTMLElement | null>(null)
@@ -62,33 +64,49 @@ const cardContentRefs = ref<HTMLElement[]>([])
 const { init, destroy, currentScene } = useServicesScrollytelling()
 
 onMounted(() => {
-  nextTick(() => {
-    init({
-      container: containerRef,
-      header: headerRef,
-      title: titleRef,
-      subtitle: subtitleRef,
-      titleLine: titleLineRef,
-      cardsWrapper: cardsWrapperRef,
-      cards: cardRefs,
-      icons: iconRefs,
-      cardContents: cardContentRefs,
-    })
-  })
-})
+  // Check if desktop (md breakpoint = 768px)
+  const checkDesktop = () => {
+    isDesktop.value = window.innerWidth >= 768
+  }
 
-onUnmounted(() => {
-  destroy()
+  checkDesktop()
+  window.addEventListener('resize', checkDesktop)
+
+  // Only init scrollytelling on desktop
+  nextTick(() => {
+    if (isDesktop.value) {
+      init({
+        container: containerRef,
+        header: headerRef,
+        title: titleRef,
+        subtitle: subtitleRef,
+        titleLine: titleLineRef,
+        cardsWrapper: cardsWrapperRef,
+        cards: cardRefs,
+        icons: iconRefs,
+        cardContents: cardContentRefs,
+      })
+    }
+  })
+
+  onUnmounted(() => {
+    window.removeEventListener('resize', checkDesktop)
+    destroy()
+  })
 })
 </script>
 
 <template>
+  <!-- ============================================ -->
+  <!-- DESKTOP VERSION - Scrollytelling -->
+  <!-- ============================================ -->
   <section
+    v-if="isDesktop"
     id="services"
     ref="containerRef"
     class="services-scrollytelling bg-cream min-h-screen relative overflow-hidden"
   >
-    <!-- Progress indicator (subtle) -->
+    <!-- Progress indicator -->
     <div class="fixed top-1/2 right-8 -translate-y-1/2 z-50 hidden lg:flex flex-col gap-2">
       <div
         v-for="(_, index) in services"
@@ -98,22 +116,21 @@ onUnmounted(() => {
       />
     </div>
 
-    <div class="container-alp h-screen flex flex-col justify-center py-20">
+    <div class="container-alp h-screen flex flex-col justify-start items-center py-20 pb-16">
       <!-- Section Header -->
       <div
         ref="headerRef"
-        class="text-center mb-12"
+        class="text-center mb-10 w-full"
       >
         <h2
           ref="titleRef"
-          class="text-4xl md:text-5xl lg:text-6xl font-bold font-display text-alp-black mb-4 opacity-0"
+          class="text-4xl md:text-5xl lg:text-6xl font-bold font-display text-alp-black mb-2 opacity-0"
         >
           Nos services
         </h2>
-        <!-- Title underline -->
         <div
           ref="titleLineRef"
-          class="w-20 h-0.5 bg-alp-black/30 mx-auto mb-6 scale-x-0"
+          class="w-20 h-0.5 bg-alp-black/30 mx-auto mb-3 scale-x-0"
         />
         <p
           ref="subtitleRef"
@@ -123,18 +140,17 @@ onUnmounted(() => {
         </p>
       </div>
 
-      <!-- Services Grid - Scrollytelling Cards -->
+      <!-- Services Grid -->
       <div
         ref="cardsWrapperRef"
-        class="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 flex-1 max-h-[60vh]"
+        class="grid grid-cols-2 gap-6 w-full max-w-5xl"
       >
         <article
           v-for="(service, index) in services"
           :key="service.id"
           :ref="(el) => { if (el) cardRefs[index] = el as HTMLElement }"
-          class="service-card relative bg-white rounded-3xl p-6 lg:p-8 shadow-sm border border-black/5 transition-shadow duration-500 opacity-0 translate-y-12"
+          class="service-card relative bg-white rounded-3xl p-6 lg:p-8 shadow-sm border border-black/5 opacity-0 translate-y-12"
         >
-          <!-- Icon Container -->
           <div
             :ref="(el) => { if (el) iconRefs[index] = el as HTMLElement }"
             class="service-icon w-14 h-14 rounded-2xl bg-cream flex items-center justify-center mb-5"
@@ -145,11 +161,9 @@ onUnmounted(() => {
             />
           </div>
 
-          <!-- Card Content -->
           <div :ref="(el) => { if (el) cardContentRefs[index] = el as HTMLElement }">
             <h3 class="text-xl lg:text-2xl font-semibold font-display text-alp-black mb-3 relative">
               {{ service.title }}
-              <!-- Decorative underline for last card -->
               <span
                 v-if="index === services.length - 1"
                 class="card-underline absolute -bottom-1 left-0 w-12 h-0.5 bg-alp-black/20 origin-left scale-x-0"
@@ -159,7 +173,6 @@ onUnmounted(() => {
               {{ service.description }}
             </p>
 
-            <!-- Features -->
             <ul class="space-y-2">
               <li
                 v-for="feature in service.features"
@@ -176,13 +189,67 @@ onUnmounted(() => {
           </div>
         </article>
       </div>
+    </div>
+  </section>
 
-      <!-- Scroll hint -->
-      <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-50">
-        <span class="text-xs text-alp-black-muted uppercase tracking-widest">Scroll</span>
-        <div class="w-5 h-8 rounded-full border-2 border-alp-black/30 flex justify-center pt-1">
-          <div class="w-1 h-2 bg-alp-black/40 rounded-full animate-bounce" />
-        </div>
+  <!-- ============================================ -->
+  <!-- MOBILE VERSION - Classic scroll -->
+  <!-- ============================================ -->
+  <section
+    v-else
+    id="services"
+    class="bg-cream py-16 px-4"
+  >
+    <div class="container-alp">
+      <!-- Section Header -->
+      <div class="text-center mb-10">
+        <h2 class="text-3xl font-bold font-display text-alp-black mb-4">
+          Nos services
+        </h2>
+        <div class="w-16 h-0.5 bg-alp-black/30 mx-auto mb-4" />
+        <p class="text-base text-alp-black-muted max-w-md mx-auto">
+          Une expertise complète pour donner vie à vos projets digitaux.
+        </p>
+      </div>
+
+      <!-- Services Cards - Stacked on mobile -->
+      <div class="flex flex-col gap-4">
+        <article
+          v-for="service in services"
+          :key="service.id"
+          class="bg-white rounded-2xl p-5 shadow-sm border border-black/5"
+        >
+          <div class="flex items-start gap-4">
+            <!-- Icon -->
+            <div class="w-12 h-12 rounded-xl bg-cream flex items-center justify-center flex-shrink-0">
+              <Icon
+                :name="service.icon"
+                class="w-6 h-6 text-alp-black"
+              />
+            </div>
+
+            <!-- Content -->
+            <div class="flex-1">
+              <h3 class="text-lg font-semibold font-display text-alp-black mb-2">
+                {{ service.title }}
+              </h3>
+              <p class="text-alp-black-muted text-sm mb-3 leading-relaxed">
+                {{ service.description }}
+              </p>
+
+              <!-- Features as tags -->
+              <div class="flex flex-wrap gap-2">
+                <span
+                  v-for="feature in service.features"
+                  :key="feature"
+                  class="text-xs bg-cream text-alp-black-soft px-2 py-1 rounded-full"
+                >
+                  {{ feature }}
+                </span>
+              </div>
+            </div>
+          </div>
+        </article>
       </div>
     </div>
   </section>
