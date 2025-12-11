@@ -7,7 +7,59 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
  * - Horizontal transition between Services and Process
  * - Services slides out to the left
  * - Process slides in from the right with horizontal scroll
+ * - Gradient color transition on Services section
  */
+
+// Gradient progress for Services section (0 to 1 during Services scroll)
+const gradientProgress = ref(0)
+
+// Computed colors based on gradient progress
+const servicesBgColor = computed(() => {
+  const progress = gradientProgress.value
+  // Cream: #F5F0E8 -> Dark blue: #0F172A
+  const r = Math.round(245 - progress * (245 - 15))
+  const g = Math.round(240 - progress * (240 - 23))
+  const b = Math.round(232 - progress * (232 - 42))
+  return `rgb(${r}, ${g}, ${b})`
+})
+
+const servicesTextColor = computed(() => {
+  const progress = gradientProgress.value
+  // Dark: #2D2D2D -> Light: #F8FAFC
+  const r = Math.round(45 + progress * (248 - 45))
+  const g = Math.round(45 + progress * (250 - 45))
+  const b = Math.round(45 + progress * (252 - 45))
+  return `rgb(${r}, ${g}, ${b})`
+})
+
+const servicesMutedColor = computed(() => {
+  const progress = gradientProgress.value
+  // Muted dark -> Muted light
+  const r = Math.round(100 + progress * 120)
+  const g = Math.round(100 + progress * 120)
+  const b = Math.round(100 + progress * 120)
+  return `rgb(${r}, ${g}, ${b})`
+})
+
+const servicesCardBg = computed(() => {
+  const progress = gradientProgress.value
+  // White -> Dark slate
+  const r = Math.round(255 - progress * (255 - 30))
+  const g = Math.round(255 - progress * (255 - 41))
+  const b = Math.round(255 - progress * (255 - 59))
+  return `rgb(${r}, ${g}, ${b})`
+})
+
+const servicesIconBg = computed(() => {
+  const progress = gradientProgress.value
+  // Cream -> Darker blue
+  const r = Math.round(245 - progress * (245 - 51))
+  const g = Math.round(240 - progress * (240 - 65))
+  const b = Math.round(232 - progress * (232 - 85))
+  return `rgb(${r}, ${g}, ${b})`
+})
+
+const isDark = computed(() => gradientProgress.value > 0.5)
 
 // ============================================
 // SERVICES DATA
@@ -186,6 +238,27 @@ onMounted(() => {
           invalidateOnRefresh: true,
           onUpdate: (self) => {
             const progress = self.progress
+
+            // Gradient logic:
+            // 0% - 5%: fade to dark (like before)
+            // 5% - 58%: stay dark
+            // 58% - 62%: quick transition back to light
+            if (progress < 0.05) {
+              // Fade to dark at start
+              gradientProgress.value = progress / 0.05
+            }
+            else if (progress < 0.58) {
+              // Stay dark during Services content
+              gradientProgress.value = 1
+            }
+            else if (progress < 0.62) {
+              // Quick fade back to light at the end
+              gradientProgress.value = 1 - ((progress - 0.58) / 0.04)
+            }
+            else {
+              // Light for Process section
+              gradientProgress.value = 0
+            }
 
             // Services: 0% - 50% | Transition: 50% - 65% | Process: 65% - 100%
             if (progress < 0.5) {
@@ -436,24 +509,28 @@ onUnmounted(() => {
       <div
         id="services"
         ref="servicesPanelRef"
-        class="w-1/2 h-full bg-cream flex items-center justify-center relative"
+        class="w-1/2 h-full flex items-center justify-center relative transition-colors duration-75"
+        :style="{ backgroundColor: servicesBgColor }"
       >
         <div class="container-alp max-w-6xl pt-28 pb-20">
           <!-- Section Header -->
           <div class="text-center mb-12">
             <h2
               ref="servicesTitleRef"
-              class="text-4xl md:text-5xl lg:text-6xl font-bold font-display text-alp-black mb-4"
+              class="text-4xl md:text-5xl lg:text-6xl font-bold font-display mb-4 transition-colors duration-75"
+              :style="{ color: servicesTextColor }"
             >
               Nos services
             </h2>
             <div
               ref="servicesLineRef"
-              class="w-20 h-0.5 bg-alp-black/30 mx-auto mb-6 origin-center"
+              class="w-20 h-0.5 mx-auto mb-6 origin-center transition-colors duration-75"
+              :style="{ backgroundColor: isDark ? 'rgba(255,255,255,0.3)' : 'rgba(0,0,0,0.3)' }"
             />
             <p
               ref="servicesSubtitleRef"
-              class="text-lg md:text-xl text-alp-black-muted max-w-2xl mx-auto"
+              class="text-lg md:text-xl max-w-2xl mx-auto transition-colors duration-75"
+              :style="{ color: servicesMutedColor }"
             >
               Une expertise complète pour donner vie à vos projets digitaux.
             </p>
@@ -465,25 +542,34 @@ onUnmounted(() => {
               v-for="(service, index) in services"
               :key="service.id"
               :ref="(el) => { if (el) serviceCardRefs[index] = el as HTMLElement }"
-              class="service-card relative bg-white rounded-3xl p-6 lg:p-8 shadow-sm border border-black/5"
+              class="service-card relative rounded-3xl p-6 lg:p-8 shadow-sm transition-colors duration-75"
+              :style="{ backgroundColor: servicesCardBg, borderColor: isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.05)', borderWidth: '1px' }"
             >
               <!-- Icon -->
               <div
                 :ref="(el) => { if (el) serviceIconRefs[index] = el as HTMLElement }"
-                class="w-14 h-14 rounded-2xl bg-cream flex items-center justify-center mb-3"
+                class="w-14 h-14 rounded-2xl flex items-center justify-center mb-3 transition-colors duration-75"
+                :style="{ backgroundColor: servicesIconBg }"
               >
                 <Icon
                   :name="service.icon"
-                  class="w-7 h-7 text-alp-black"
+                  class="w-7 h-7 transition-colors duration-75"
+                  :style="{ color: servicesTextColor }"
                 />
               </div>
 
               <!-- Content -->
               <div :ref="(el) => { if (el) serviceContentRefs[index] = el as HTMLElement }">
-                <h3 class="text-xl lg:text-2xl font-semibold font-display text-alp-black mb-3">
+                <h3
+                  class="text-xl lg:text-2xl font-semibold font-display mb-3 transition-colors duration-75"
+                  :style="{ color: servicesTextColor }"
+                >
                   {{ service.title }}
                 </h3>
-                <p class="text-alp-black-muted mb-5 text-sm lg:text-base leading-relaxed">
+                <p
+                  class="mb-5 text-sm lg:text-base leading-relaxed transition-colors duration-75"
+                  :style="{ color: servicesMutedColor }"
+                >
                   {{ service.description }}
                 </p>
 
@@ -491,11 +577,13 @@ onUnmounted(() => {
                   <li
                     v-for="feature in service.features"
                     :key="feature"
-                    class="flex items-center gap-2 text-alp-black-soft text-sm"
+                    class="flex items-center gap-2 text-sm transition-colors duration-75"
+                    :style="{ color: servicesMutedColor }"
                   >
                     <Icon
                       name="lucide:check"
-                      class="w-4 h-4 text-green-600 flex-shrink-0"
+                      class="w-4 h-4 flex-shrink-0"
+                      :class="isDark ? 'text-green-400' : 'text-green-600'"
                     />
                     <span>{{ feature }}</span>
                   </li>
@@ -505,7 +593,10 @@ onUnmounted(() => {
           </div>
 
           <!-- Scroll hint -->
-          <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex items-center gap-2 text-alp-black/40">
+          <div
+            class="absolute bottom-8 left-1/2 -translate-x-1/2 flex items-center gap-2 transition-colors duration-75"
+            :style="{ color: isDark ? 'rgba(255,255,255,0.4)' : 'rgba(0,0,0,0.4)' }"
+          >
             <span class="text-xs uppercase tracking-widest">Continuer</span>
             <Icon
               name="lucide:arrow-right"
