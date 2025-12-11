@@ -25,12 +25,12 @@ useSeoMeta({
       <ChaptersChapterHero />
     </div>
 
-    <!-- Chapitre 2 : L'Exploration (z-20) - Passe par dessus le Hero -->
+    <!-- Chapitre 2 : L'Exploration (z-20) -->
     <div class="relative z-20">
       <ChaptersChapterShowcase />
     </div>
 
-    <!-- Chapitre 3+4 : Services + Process - Horizontal Transition (z-30) -->
+    <!-- Chapitre 3+4 : Services + Process -->
     <div class="relative z-30">
       <ChaptersChapterServicesProcess />
     </div>

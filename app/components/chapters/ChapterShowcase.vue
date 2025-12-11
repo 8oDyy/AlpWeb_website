@@ -7,7 +7,14 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
  * - Section pinnée pendant le scroll
  * - Les cartes se remplacent une par une avec une timeline
  * - Changement d'ambiance à chaque transition
+ * - Background color controlled by parent for gradient effect
  */
+
+// Props for dynamic color transition from parent
+defineProps<{
+  textColor?: string
+  bgProgress?: number
+}>()
 
 interface ShowcaseItem {
   id: string
