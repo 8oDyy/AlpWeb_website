@@ -60,7 +60,6 @@ const showcaseItems: ShowcaseItem[] = [
 // Refs
 const sectionRef = ref<HTMLElement | null>(null)
 const cardsRef = ref<HTMLElement[]>([])
-const _bgRef = ref<HTMLElement | null>(null)
 
 // Current active card index
 const activeIndex = ref(0)

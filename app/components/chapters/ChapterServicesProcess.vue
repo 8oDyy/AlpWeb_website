@@ -346,50 +346,68 @@ onMounted(() => {
 
       // ============================================
       // PROCESS HORIZONTAL SCROLL (65% - 100%)
+      // Friction effect on EACH step
       // ============================================
       const processContainer = processPanel.querySelector('.process-slides-container')
-      if (processContainer) {
-        mainTl.to(processContainer, {
-          xPercent: -75,
-          ease: 'none',
-          duration: 0.35, // 65% -> 100%
-        }, 0.65)
-      }
+      const numSteps = steps.length
+      const totalDuration = 0.35
+      const deadZone = 0.012 // Dead zone duration per step
+      const moveDuration = (totalDuration - (deadZone * numSteps)) / numSteps
 
-      if (progressLine) {
-        mainTl.to(progressLine, {
-          scaleX: 1,
-          ease: 'none',
-          duration: 0.35,
-        }, 0.65)
-      }
+      // Animate each step with friction + dead zone
+      let currentPos = 0.65
 
-      // Animate individual process slides
-      processSlides.forEach((slide, index) => {
-        if (index === 0) return
+      for (let i = 0; i < numSteps; i++) {
+        const targetX = -25 * i
 
-        // Process slides animate from 65% to 100% (0.35 duration)
-        const slideStart = 0.65 + (index / steps.length) * 0.35
+        // Movement phase with friction
+        if (processContainer) {
+          mainTl.to(processContainer, {
+            xPercent: targetX,
+            ease: 'slow(0.7, 0.7, false)',
+            duration: moveDuration,
+          }, currentPos)
+        }
 
-        mainTl.to(slide, {
-          opacity: 1,
-          scale: 1,
-          duration: 0.06,
-          ease: 'power2.out',
-        }, slideStart - 0.02)
+        if (progressLine) {
+          mainTl.to(progressLine, {
+            scaleX: (i + 1) / numSteps,
+            ease: 'slow(0.7, 0.7, false)',
+            duration: moveDuration,
+          }, currentPos)
+        }
 
-        if (index > 0) {
-          const prevSlide = processSlides[index - 1]
+        // Slide opacity transitions
+        if (i > 0) {
+          const slide = processSlides[i]
+          const prevSlide = processSlides[i - 1]
+
+          if (slide) {
+            mainTl.to(slide, {
+              opacity: 1,
+              scale: 1,
+              duration: moveDuration * 0.5,
+              ease: 'power2.out',
+            }, currentPos)
+          }
+
           if (prevSlide) {
             mainTl.to(prevSlide, {
               opacity: 0.3,
               scale: 0.95,
-              duration: 0.06,
+              duration: moveDuration * 0.5,
               ease: 'power2.in',
-            }, slideStart)
+            }, currentPos + moveDuration * 0.4)
           }
         }
-      })
+
+        // Move position past movement
+        currentPos += moveDuration
+
+        // Dead zone: add empty tween that does nothing (holds position)
+        mainTl.to({}, { duration: deadZone }, currentPos)
+        currentPos += deadZone
+      }
     }, wrapper)
   }, 400)
 })
@@ -420,7 +438,7 @@ onUnmounted(() => {
         ref="servicesPanelRef"
         class="w-1/2 h-full bg-cream flex items-center justify-center relative"
       >
-        <div class="container-alp max-w-6xl py-20">
+        <div class="container-alp max-w-6xl pt-28 pb-20">
           <!-- Section Header -->
           <div class="text-center mb-12">
             <h2
@@ -452,7 +470,7 @@ onUnmounted(() => {
               <!-- Icon -->
               <div
                 :ref="(el) => { if (el) serviceIconRefs[index] = el as HTMLElement }"
-                class="w-14 h-14 rounded-2xl bg-cream flex items-center justify-center mb-5"
+                class="w-14 h-14 rounded-2xl bg-cream flex items-center justify-center mb-3"
               >
                 <Icon
                   :name="service.icon"
@@ -507,7 +525,7 @@ onUnmounted(() => {
       >
         <!-- Fixed header -->
         <div class="absolute top-0 left-0 right-0 z-20 pt-8 pb-4 bg-cream-dark/80 backdrop-blur-sm">
-          <div class="container-alp">
+          <div class="container-alp mt-12">
             <div class="flex items-center justify-between">
               <div>
                 <h2 class="text-2xl md:text-3xl font-bold font-display text-alp-black">
