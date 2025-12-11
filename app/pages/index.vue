@@ -30,14 +30,9 @@ useSeoMeta({
       <ChaptersChapterShowcase />
     </div>
 
-    <!-- Chapitre 3 : La Révélation (z-30) -->
+    <!-- Chapitre 3+4 : Services + Process - Horizontal Transition (z-30) -->
     <div class="relative z-30">
-      <ChaptersChapterServices />
-    </div>
-
-    <!-- Chapitre 4 : La Méthode (z-40) -->
-    <div class="relative z-40">
-      <ChaptersChapterProcess />
+      <ChaptersChapterServicesProcess />
     </div>
 
     <!-- Chapitre 5 : Stack (z-50) -->
