@@ -8,7 +8,15 @@ export default defineNuxtConfig({
     '@nuxt/icon',
     '@nuxt/eslint',
     '@tresjs/nuxt',
+    'nuxt-site-config',
+    '@nuxtjs/sitemap',
   ],
+
+  // Site configuration (for sitemap)
+  site: {
+    url: 'https://alp-web.com',
+    name: 'AlpWeb',
+  },
   devtools: { enabled: true },
 
   // App configuration
@@ -35,7 +43,7 @@ export default defineNuxtConfig({
   runtimeConfig: {
     public: {
       siteName: 'AlpWeb',
-      siteUrl: 'https://alpweb.fr',
+      siteUrl: 'https://alp-web.com',
     },
   },
   compatibilityDate: '2025-07-15',
