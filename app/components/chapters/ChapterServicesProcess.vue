@@ -591,18 +591,6 @@ onUnmounted(() => {
               </div>
             </article>
           </div>
-
-          <!-- Scroll hint -->
-          <div
-            class="absolute bottom-8 left-1/2 -translate-x-1/2 flex items-center gap-2 transition-colors duration-75"
-            :style="{ color: isDark ? 'rgba(255,255,255,0.4)' : 'rgba(0,0,0,0.4)' }"
-          >
-            <span class="text-xs uppercase tracking-widest">Continuer</span>
-            <Icon
-              name="lucide:arrow-right"
-              class="w-4 h-4"
-            />
-          </div>
         </div>
       </div>
 
