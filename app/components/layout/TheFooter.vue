@@ -28,7 +28,10 @@ const socialLinks = [
 </script>
 
 <template>
-  <footer class="bg-alp-black text-cream">
+  <footer
+    class="bg-alp-black text-cream"
+    role="contentinfo"
+  >
     <div class="container-alp section-padding">
       <!-- Main Footer Content -->
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8">

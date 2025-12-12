@@ -8,14 +8,16 @@ definePageMeta({
   layout: 'default',
 })
 
-useSeoMeta({
-  title: 'AlpWeb - Agence Web Premium',
+// SEO
+useSeo({
+  title: 'Agence Web Premium',
   description: 'AlpWeb, agence web spécialisée dans la création de sites vitrines haut de gamme, applications iOS et plateformes sur-mesure.',
-  ogTitle: 'AlpWeb - Agence Web Premium',
-  ogDescription: 'Création de sites vitrines premium, applications iOS et dashboards sur-mesure.',
-  ogImage: '/og-image.jpg',
-  twitterCard: 'summary_large_image',
+  image: '/og-image.jpg',
 })
+
+// Schema.org - Organization + WebSite
+useSchemaOrganization()
+useSchemaWebSite()
 </script>
 
 <template>

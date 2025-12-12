@@ -9,28 +9,69 @@ export default defineNuxtConfig({
     '@nuxt/eslint',
     '@tresjs/nuxt',
     'nuxt-site-config',
+    '@nuxtjs/robots',
     '@nuxtjs/sitemap',
+    '@nuxt/image',
   ],
 
-  // Site configuration (for sitemap)
+  // Site configuration (for sitemap & SEO)
   site: {
     url: 'https://alp-web.com',
     name: 'AlpWeb',
   },
+
+  // Sitemap configuration
+  sitemap: {
+    exclude: [
+      '/admin/**',
+      '/login',
+      '/dashboard/**',
+      '/debug/**',
+    ],
+    defaults: {
+      changefreq: 'weekly',
+      priority: 0.8,
+      lastmod: new Date().toISOString(),
+    },
+  },
+
+  // Robots configuration
+  robots: {
+    disallow: ['/admin', '/login', '/dashboard', '/debug', '/api'],
+  },
+
   devtools: { enabled: true },
 
   // App configuration
   app: {
     head: {
       htmlAttrs: { lang: 'fr' },
-      title: 'AlpWeb - Agence Web',
+      titleTemplate: '%s | AlpWeb - Agence Web Premium',
       meta: [
         { charset: 'utf-8' },
         { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-        { name: 'description', content: 'AlpWeb - Agence web spécialisée dans la création de sites vitrines modernes et performants.' },
+        { name: 'description', content: 'AlpWeb - Agence web spécialisée dans la création de sites vitrines premium, applications iOS et plateformes sur-mesure.' },
+        { name: 'theme-color', content: '#1a1a1a' },
+        { name: 'author', content: 'AlpWeb' },
+        { name: 'robots', content: 'index, follow' },
+        // OpenGraph defaults
+        { property: 'og:type', content: 'website' },
+        { property: 'og:site_name', content: 'AlpWeb' },
+        { property: 'og:locale', content: 'fr_FR' },
+        { property: 'og:image', content: 'https://alp-web.com/og-image.jpg' },
+        { property: 'og:image:width', content: '1200' },
+        { property: 'og:image:height', content: '630' },
+        // Twitter defaults
+        { name: 'twitter:card', content: 'summary_large_image' },
+        { name: 'twitter:site', content: '@alpweb' },
+        { name: 'twitter:image', content: 'https://alp-web.com/og-image.jpg' },
       ],
       link: [
         { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+        { rel: 'icon', type: 'image/png', sizes: '32x32', href: '/favicon-32x32.png' },
+        { rel: 'icon', type: 'image/png', sizes: '16x16', href: '/favicon-16x16.png' },
+        { rel: 'apple-touch-icon', sizes: '180x180', href: '/apple-touch-icon.png' },
+        { rel: 'manifest', href: '/site.webmanifest' },
       ],
     },
   },
@@ -39,11 +80,44 @@ export default defineNuxtConfig({
   css: ['~/assets/css/main.css'],
 
   // Runtime config - values are overridden by env variables at runtime
-  // NUXT_PUBLIC_SITE_NAME and NUXT_PUBLIC_SITE_URL
   runtimeConfig: {
     public: {
       siteName: 'AlpWeb',
       siteUrl: 'https://alp-web.com',
+      siteDescription: 'Agence web spécialisée dans la création de sites vitrines premium, applications iOS et plateformes sur-mesure.',
+      analyticsProvider: '', // 'gtag' | 'plausible' | '' (disabled)
+      gtagId: '',
+      plausibleDomain: '',
+      env: 'production', // 'production' | 'preview' | 'development'
+    },
+  },
+
+  // Image optimization
+  image: {
+    quality: 80,
+    format: ['webp', 'avif'],
+    screens: {
+      xs: 320,
+      sm: 640,
+      md: 768,
+      lg: 1024,
+      xl: 1280,
+      xxl: 1536,
+    },
+  },
+
+  // Nitro configuration for headers
+  nitro: {
+    routeRules: {
+      // Cache static assets
+      '/_nuxt/**': { headers: { 'cache-control': 'public, max-age=31536000, immutable' } },
+      '/images/**': { headers: { 'cache-control': 'public, max-age=86400, s-maxage=86400' } },
+      // No index for preview environments
+      '/**': {
+        headers: process.env.NUXT_PUBLIC_ENV === 'preview'
+          ? { 'X-Robots-Tag': 'noindex, nofollow' }
+          : {},
+      },
     },
   },
   compatibilityDate: '2025-07-15',
