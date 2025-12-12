@@ -1,0 +1,15 @@
+# AlpWeb - robots.txt
+# https://alp-web.com
+
+User-Agent: *
+Allow: /
+
+# Disallow technical routes
+Disallow: /admin
+Disallow: /login
+Disallow: /dashboard
+Disallow: /debug
+Disallow: /api/
+
+# Sitemap
+Sitemap: https://alp-web.com/sitemap.xml

@@ -58,7 +58,10 @@ onMounted(() => {
 </script>
 
 <template>
-  <header class="fixed top-0 left-0 right-0 z-[100]">
+  <header
+    class="fixed top-0 left-0 right-0 z-[100]"
+    role="banner"
+  >
     <!-- Full navbar (visible dans le Hero) -->
     <div
       class="header-full absolute inset-0 bg-cream/80 backdrop-blur-md border-b border-cream-dark transition-all duration-500 ease-out"
@@ -67,7 +70,10 @@ onMounted(() => {
         'opacity-0 -translate-y-full pointer-events-none': !showFullHeader,
       }"
     >
-      <nav class="container-alp py-4">
+      <nav
+        class="container-alp py-4"
+        aria-label="Navigation principale"
+      >
         <div class="flex items-center justify-between">
           <NuxtLink
             to="/"
@@ -146,7 +152,10 @@ onMounted(() => {
       }"
     >
       <div class="container-alp">
-        <nav class="py-3 px-6 bg-cream/70 backdrop-blur-md rounded-b-2xl shadow-sm">
+        <nav
+          class="py-3 px-6 bg-cream/70 backdrop-blur-md rounded-b-2xl shadow-sm"
+          aria-label="Navigation compacte"
+        >
           <div class="flex items-center justify-between">
             <!-- Logo plus visible -->
             <NuxtLink
