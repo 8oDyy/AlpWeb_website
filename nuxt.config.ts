@@ -113,12 +113,6 @@ export default defineNuxtConfig({
       // Cache static assets
       '/_nuxt/**': { headers: { 'cache-control': 'public, max-age=31536000, immutable' } },
       '/images/**': { headers: { 'cache-control': 'public, max-age=86400, s-maxage=86400' } },
-      // No index for preview environments
-      '/**': {
-        headers: process.env.NUXT_PUBLIC_ENV === 'preview'
-          ? { 'X-Robots-Tag': 'noindex, nofollow' }
-          : {},
-      },
     },
   },
   compatibilityDate: '2025-07-15',
