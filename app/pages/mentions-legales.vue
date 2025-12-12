@@ -39,7 +39,10 @@ useSchemaWebPage({
         </p>
         <p class="text-alp-black-muted">
           Directeur de la publication : [TODO: Nom du responsable]<br>
-          Contact : <a href="mailto:contact@alpweb.fr" class="text-alp-black hover:underline">contact@alpweb.fr</a>
+          Contact : <a
+            href="mailto:contact@alpweb.fr"
+            class="text-alp-black hover:underline"
+          >contact@alpweb.fr</a>
         </p>
       </section>
 

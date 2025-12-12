@@ -105,8 +105,8 @@ export function generateLocalBusinessSchema(business: LocalBusinessSchema): obje
     ...(business.geo && {
       geo: {
         '@type': 'GeoCoordinates',
-        latitude: business.geo.latitude,
-        longitude: business.geo.longitude,
+        'latitude': business.geo.latitude,
+        'longitude': business.geo.longitude,
       },
     }),
     ...(business.sameAs && { sameAs: business.sameAs }),

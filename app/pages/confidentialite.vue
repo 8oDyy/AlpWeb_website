@@ -46,7 +46,10 @@ useSchemaWebPage({
           Le responsable du traitement des données est :<br>
           <strong>AlpWeb</strong><br>
           [TODO: Adresse]<br>
-          Email : <a href="mailto:contact@alpweb.fr" class="text-alp-black hover:underline">contact@alpweb.fr</a>
+          Email : <a
+            href="mailto:contact@alpweb.fr"
+            class="text-alp-black hover:underline"
+          >contact@alpweb.fr</a>
         </p>
       </section>
 
@@ -105,7 +108,10 @@ useSchemaWebPage({
           <li>Droit d'opposition</li>
         </ul>
         <p class="text-alp-black-muted mt-4">
-          Pour exercer ces droits, contactez-nous à : <a href="mailto:contact@alpweb.fr" class="text-alp-black hover:underline">contact@alpweb.fr</a>
+          Pour exercer ces droits, contactez-nous à : <a
+            href="mailto:contact@alpweb.fr"
+            class="text-alp-black hover:underline"
+          >contact@alpweb.fr</a>
         </p>
       </section>
 
@@ -125,7 +131,10 @@ useSchemaWebPage({
         </h2>
         <p class="text-alp-black-muted">
           Pour toute question concernant cette politique de confidentialité, contactez-nous à :
-          <a href="mailto:contact@alpweb.fr" class="text-alp-black hover:underline">contact@alpweb.fr</a>
+          <a
+            href="mailto:contact@alpweb.fr"
+            class="text-alp-black hover:underline"
+          >contact@alpweb.fr</a>
         </p>
       </section>
     </div>

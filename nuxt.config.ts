@@ -14,32 +14,6 @@ export default defineNuxtConfig({
     '@nuxt/image',
   ],
 
-  // Site configuration (for sitemap & SEO)
-  site: {
-    url: 'https://alp-web.com',
-    name: 'AlpWeb',
-  },
-
-  // Sitemap configuration
-  sitemap: {
-    exclude: [
-      '/admin/**',
-      '/login',
-      '/dashboard/**',
-      '/debug/**',
-    ],
-    defaults: {
-      changefreq: 'weekly',
-      priority: 0.8,
-      lastmod: new Date().toISOString(),
-    },
-  },
-
-  // Robots configuration
-  robots: {
-    disallow: ['/admin', '/login', '/dashboard', '/debug', '/api'],
-  },
-
   devtools: { enabled: true },
 
   // App configuration
@@ -80,6 +54,12 @@ export default defineNuxtConfig({
   // CSS
   css: ['~/assets/css/main.css'],
 
+  // Site configuration (for sitemap & SEO)
+  site: {
+    url: 'https://alp-web.com',
+    name: 'AlpWeb',
+  },
+
   // Runtime config - values are overridden by env variables at runtime
   runtimeConfig: {
     public: {
@@ -91,6 +71,31 @@ export default defineNuxtConfig({
       plausibleDomain: '',
       env: 'production', // 'production' | 'preview' | 'development'
     },
+  },
+  compatibilityDate: '2025-07-15',
+
+  // Nitro configuration for headers
+  nitro: {
+    routeRules: {
+      // Cache static assets
+      '/_nuxt/**': { headers: { 'cache-control': 'public, max-age=31536000, immutable' } },
+      '/images/**': { headers: { 'cache-control': 'public, max-age=86400, s-maxage=86400' } },
+    },
+  },
+
+  // ESLint configuration
+  eslint: {
+    config: {
+      stylistic: true,
+    },
+  },
+
+  // Fonts configuration
+  fonts: {
+    families: [
+      { name: 'Inter', provider: 'google', weights: [300, 400, 500, 600, 700, 800] },
+      { name: 'Manrope', provider: 'google', weights: [300, 400, 500, 600, 700, 800] },
+    ],
   },
 
   // Image optimization
@@ -107,28 +112,23 @@ export default defineNuxtConfig({
     },
   },
 
-  // Nitro configuration for headers
-  nitro: {
-    routeRules: {
-      // Cache static assets
-      '/_nuxt/**': { headers: { 'cache-control': 'public, max-age=31536000, immutable' } },
-      '/images/**': { headers: { 'cache-control': 'public, max-age=86400, s-maxage=86400' } },
-    },
-  },
-  compatibilityDate: '2025-07-15',
-
-  // ESLint configuration
-  eslint: {
-    config: {
-      stylistic: true,
-    },
+  // Robots configuration
+  robots: {
+    disallow: ['/admin', '/login', '/dashboard', '/debug', '/api'],
   },
 
-  // Fonts configuration
-  fonts: {
-    families: [
-      { name: 'Inter', provider: 'google', weights: [300, 400, 500, 600, 700, 800] },
-      { name: 'Manrope', provider: 'google', weights: [300, 400, 500, 600, 700, 800] },
+  // Sitemap configuration
+  sitemap: {
+    exclude: [
+      '/admin/**',
+      '/login',
+      '/dashboard/**',
+      '/debug/**',
     ],
+    defaults: {
+      changefreq: 'weekly',
+      priority: 0.8,
+      lastmod: new Date().toISOString(),
+    },
   },
 })
